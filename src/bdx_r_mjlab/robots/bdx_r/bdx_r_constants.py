@@ -104,12 +104,12 @@ KNEES_BENT_KEYFRAME = EntityCfg.InitialStateCfg(
 
 # TODO Louis
 
-# FULL_COLLISION = CollisionCfg(
-#   geom_names_expr=[".*_collision"],
-#   condim={r"^(left|right)_foot[1-7]_collision$": 3},
-#   priority={r"^(left|right)_foot[1-7]_collision$": 1},
-#   friction={r"^(left|right)_foot[1-7]_collision$": (0.6,)},
-# )
+FULL_COLLISION = CollisionCfg(
+  geom_names_expr=[".*_collision"],
+  condim={r"^(left|right)_foot_collision$": 3},
+  priority={r"^(left|right)_foot_collision$": 1},
+  friction={r"^(left|right)_foot_collision$": (0.6,)},
+)
 
 # FULL_COLLISION_WITHOUT_SELF = CollisionCfg(
 #   geom_names_expr=[".*_collision"],
