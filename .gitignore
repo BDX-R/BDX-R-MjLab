@@ -9,7 +9,8 @@ wheels/
 logs
 wandb
 
-BDX-R-CAD
+BDX-R-CAD-main
+bdxr_r_cad.tar.gz
 
 # Virtual environments
 .venv

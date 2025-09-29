@@ -4,12 +4,8 @@ from pathlib import Path
 
 import mujoco
 
-from mjlab import MJLAB_SRC_PATH
+from bdx_r_mjlab import BDX_R_MJLAB_SRC_PATH
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
-from mjlab.utils.actuator import (
-  ElectricActuator,
-  reflected_inertia_from_two_stage_planetary,
-)
 from mjlab.utils.os import update_assets
 from mjlab.utils.spec_config import ActuatorCfg, CollisionCfg
 
@@ -17,20 +13,20 @@ from mjlab.utils.spec_config import ActuatorCfg, CollisionCfg
 # MJCF and assets.
 ##
 
-G1_XML: Path = (
-  MJLAB_SRC_PATH / "asset_zoo" / "robots" / "unitree_g1" / "xmls" / "g1.xml"
+BDX_R_XML: Path = (
+  BDX_R_MJLAB_SRC_PATH / "robots" / "bdx_r" / "BDX-R-CAD-main" / "BDX-R_description" / "BDX-R.xml"
 )
-assert G1_XML.exists()
+assert BDX_R_XML.exists()
 
 
 def get_assets(meshdir: str) -> dict[str, bytes]:
   assets: dict[str, bytes] = {}
-  update_assets(assets, G1_XML.parent / "assets", meshdir)
+  update_assets(assets, BDX_R_XML.parent / "assets", meshdir)
   return assets
 
 
 def get_spec() -> mujoco.MjSpec:
-  spec = mujoco.MjSpec.from_file(str(G1_XML))
+  spec = mujoco.MjSpec.from_file(str(BDX_R_XML))
   spec.assets = get_assets(spec.meshdir)
   return spec
 
