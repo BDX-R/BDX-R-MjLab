@@ -49,7 +49,8 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
     self.commands.twist.viz.z_offset = 0.75
 
     self.curriculum.command_vel = None
-    self.sim.njmax = 600
+    self.sim.njmax = 510
+    self.sim.nconmax = 520000
 
 
 @dataclass
