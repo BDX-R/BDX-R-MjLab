@@ -9,5 +9,7 @@ wheels/
 logs
 wandb
 
+BDX-R-CAD
+
 # Virtual environments
 .venv
