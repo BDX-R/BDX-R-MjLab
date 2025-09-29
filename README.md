@@ -2,20 +2,21 @@
 
 ## Quickstart
 
-Get the robot description:
-
 ## Clone the repository
 
 ```bash
-https://github.com/louislelay/bdx_r_mjlab.git
+git clone https://github.com/louislelay/bdx_r_mjlab.git
 ```
 
 ### Enter the repository
+
 ```bash
 cd bdx_r_mjlab
-````
+```
 
 ### Download the asset
+
+Get the robot description:
 
 ```bash
 curl -L -o bdx_r_cad.tar.gz https://github.com/KaydenKnapik/BDX-R-CAD/archive/refs/heads/main.tar.gz
