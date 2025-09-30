@@ -19,9 +19,9 @@ cd bdx_r_mjlab
 Get the robot description:
 
 ```bash
-curl -L -o bdx_r_cad.tar.gz https://github.com/KaydenKnapik/BDX-R-CAD/archive/refs/heads/main.tar.gz
-tar -xzf bdx_r_cad.tar.gz -C src/bdx_r_mjlab/robots/bdx_r/
-rm bdx_r_cad.tar.gz
+curl -L -o bdx_r_description.tar.gz https://github.com/KaydenKnapik/BDX-R-Description/archive/refs/heads/main.tar.gz
+tar -xzf bdx_r_description.tar.gz -C src/bdx_r_mjlab/robots/bdx_r/
+rm bdx_r_description.tar.gz
 ```
 
 ### List available environments
