@@ -1,4 +1,4 @@
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, replace, field
 
 from bdx_r_mjlab.robots.bdx_r.bdx_r_constants import (
   BDX_R_ACTION_SCALE,
@@ -9,13 +9,26 @@ from mjlab.tasks.velocity.velocity_env_cfg import (
 )
 from mjlab.utils.spec_config import ContactSensorCfg
 
+from mjlab.managers.manager_term_config import TerminationTermCfg as DoneTerm
+from mjlab.managers.manager_term_config import term
+
+from bdx_r_mjlab.tasks.velocity import mdp
 
 @dataclass
+class TerminationCfg:
+  time_out: DoneTerm = term(DoneTerm, func=mdp.time_out, time_out=True)
+  base_contact: DoneTerm = term(
+    DoneTerm,
+    func=mdp.illegal_contacts, 
+  )
+  
+@dataclass
 class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
+  terminations: TerminationCfg = field(default_factory=TerminationCfg)
   def __post_init__(self):
     super().__post_init__()
 
-    foot_contact_sensors = [
+    contact_sensors = [
       ContactSensorCfg(
         name=f"{side}_foot_ground_contact",
         body1=f"{side}_Foot",
@@ -26,7 +39,17 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
       )
       for side in ["Left", "Right"]
     ]
-    bdx_r_cfg = replace(BDX_R_ROBOT_CFG, sensors=tuple(foot_contact_sensors))
+    contact_sensors += [
+      ContactSensorCfg(
+        name="base_link_contact",
+        body1="base_link",
+        body2="terrain",
+        num=1,
+        data=("found",),
+        reduce="netforce",
+      )
+    ]
+    bdx_r_cfg = replace(BDX_R_ROBOT_CFG, sensors=tuple(contact_sensors))
     self.scene.entities = {"robot": bdx_r_cfg}
 
     sensor_names = ["Left_foot_ground_contact", "Right_foot_ground_contact"]
@@ -49,6 +72,9 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
     self.commands.twist.viz.z_offset = 0.75
 
     self.curriculum.command_vel = None
+
+
+    self.terminations.base_contact.params["sensor_names"] = ["base_link_contact"]
     # self.sim.njmax = 510
     # self.sim.nconmax = 520000
 

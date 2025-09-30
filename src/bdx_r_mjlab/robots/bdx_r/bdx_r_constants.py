@@ -14,7 +14,7 @@ from mjlab.utils.spec_config import ActuatorCfg, CollisionCfg
 ##
 
 BDX_R_XML: Path = (
-  BDX_R_MJLAB_SRC_PATH / "robots" / "bdx_r" / "BDX-R-CAD-main" / "BDX-R_description" / "BDX-R.xml"
+  BDX_R_MJLAB_SRC_PATH / "robots" / "bdx_r" / "BDX-R-Description" / "BDX-R-Description" / "BDX-R.xml"
 )
 assert BDX_R_XML.exists()
 
