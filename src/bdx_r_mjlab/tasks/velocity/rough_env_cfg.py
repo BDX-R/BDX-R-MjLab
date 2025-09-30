@@ -73,10 +73,11 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
 
     self.curriculum.command_vel = None
 
-
+    self.events.push_robot.params["velocity_range"] = {
+      "x": (-0.3, 0.3),
+      "y": (-0.3, 0.3),
+    }
     self.terminations.base_contact.params["sensor_names"] = ["base_link_contact"]
-    # self.sim.njmax = 510
-    # self.sim.nconmax = 520000
 
 
 @dataclass
