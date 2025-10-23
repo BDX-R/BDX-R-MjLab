@@ -54,6 +54,14 @@ Evaluate the policy.
 uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Play --wandb-run-path your-org/mjlab/run-id
 ```
 
+## 🎯 Roadmap
+
+- [ ] Use IMU for observations
+- [ ] Use simplified meshes for collisions
+- [ ] Deploy the policy on real robot
+- [ ] Use rough terrains
+- [ ] Add a head to the robot
+
 ## 🛠️ Contributing
 
 We look forward for contributions. Before submitting a PR, please run the following command for format:
