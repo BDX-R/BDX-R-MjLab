@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from bdx_r_mjlab.robots import (
     BDX_R_ACTION_SCALE,
@@ -7,7 +7,7 @@ from bdx_r_mjlab.robots import (
 from mjlab.tasks.velocity.velocity_env_cfg import (
     LocomotionVelocityEnvCfg,
 )
-# from mjlab.utils.spec_config import ContactSensorCfg
+from mjlab.utils.spec_config import ContactSensorCfg
 
 
 @dataclass
@@ -15,29 +15,30 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
     def __post_init__(self):
         super().__post_init__()
 
-        # contact_sensors = [
-        #  ContactSensorCfg(
-        #    name=f"{side}_foot_ground_contact",
-        #    body1=f"{side}_Foot",
-        #    body2="terrain",
-        #    num=1,
-        #    data=("found",),
-        #    reduce="netforce",
-        #  )
-        #  for side in ["Left", "Right"]
-        # ]
+        contact_sensors = [
+            ContactSensorCfg(
+                name=f"{side}_foot_ground_contact",
+                body1=f"{side}_Foot",
+                body2="terrain",
+                num=1,
+                data=("found",),
+                reduce="netforce",
+            )
+            for side in ["Left", "Right"]
+        ]
 
-        # bdx_r_cfg = replace(BDX_R_ROBOT_CFG, sensors=tuple(contact_sensors))
-        self.scene.entities = {"robot": BDX_R_ROBOT_CFG}
+        bdx_r_cfg = replace(BDX_R_ROBOT_CFG, sensors=tuple(contact_sensors))
+        self.scene.entities = {"robot": bdx_r_cfg}
 
-        # sensor_names = ["Left_foot_ground_contact", "Right_foot_ground_contact"]
+        sensor_names = ["Left_foot_ground_contact", "Right_foot_ground_contact"]
         geom_names = ["left_foot_collision", "right_foot_collision"]
 
         self.events.foot_friction.params["asset_cfg"].geom_names = geom_names
 
         self.actions.joint_pos.scale = BDX_R_ACTION_SCALE
 
-        # self.rewards.air_time.params["sensor_names"] = sensor_names
+        self.rewards.air_time.weight = 1.0
+        self.rewards.air_time.params["sensor_names"] = sensor_names
         self.rewards.pose.params["std"] = {
             r".*_Hip_Yaw": 0.15,
             r".*_Hip_Roll": 0.15,
