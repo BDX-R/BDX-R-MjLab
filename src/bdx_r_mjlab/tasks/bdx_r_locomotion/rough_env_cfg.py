@@ -42,12 +42,15 @@ class BdxRRoughEnvCfg(LocomotionVelocityEnvCfg):
         self.rewards.pose.params["std"] = {
             r".*_Hip_Yaw": 0.15,
             r".*_Hip_Roll": 0.15,
-            r".*_Hip_Pitch": 0.3,
-            r".*_Knee": 0.35,
-            r".*_Ankle": 0.25,
+            r".*_Hip_Pitch": 0.5,
+            r".*_Knee": 0.5,
+            r".*_Ankle": 0.5,
         }
 
         self.viewer.body_name = "base_link"
+        self.viewer.distance = 2.0
+        self.viewer.elevation = -5.0
+
         self.commands.twist.viz.z_offset = 0.75
 
         self.curriculum.command_vel = None
