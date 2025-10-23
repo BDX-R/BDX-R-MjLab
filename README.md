@@ -7,11 +7,11 @@ This repository showcase the implementation of the BDX-R robot into [MjLab](http
 > [!WARNING]
 > As MjLab is still in early development, this repository may be impacted by breaking changes. If an issue were to arise when running one of the scripts, feel free to open an issue or contribute to the project. Thanks you for your understanding!
 
-## What's MjLab?
+## 🤖 What's MjLab?
 
 MjLab is a project to have the [Isaac Lab](https://isaac-sim.github.io/IsaacLab/main/index.html) API using [MjWarp](https://mujoco.readthedocs.io/en/latest/mjwarp/index.html) as the backend. If you’re wondering about the motivation behind it or how it differs from Newton, you can learn more about it [here](https://github.com/mujocolab/mjlab/blob/main/docs/motivation.md).
 
-## Quickstart
+## 🚀 Quickstart
 
 Clone the repository.
 
@@ -54,7 +54,7 @@ Evaluate the policy.
 uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Play --wandb-run-path your-org/mjlab/run-id
 ```
 
-## Contributing
+## 🛠️ Contributing
 
 We look forward for contributions. Before submitting a PR, please run the following command for format:
 
@@ -62,6 +62,6 @@ We look forward for contributions. Before submitting a PR, please run the follow
 make format
 ```
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 We're grateful to the people behind MjLab, MuJoCo Warp and Isaac Lab.
