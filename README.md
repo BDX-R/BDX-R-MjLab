@@ -1,3 +1,5 @@
+https://github.com/user-attachments/assets/d2e4401f-b9c9-431d-b56d-e46ba38cffaa
+
 # BDX-R in MjLab
 
 This repository showcase the implementation of the BDX-R robot into [MjLab](https://github.com/mujocolab/mjlab). 
