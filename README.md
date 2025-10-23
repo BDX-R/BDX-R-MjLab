@@ -52,6 +52,14 @@ Evaluate the policy.
 uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Play --wandb-run-path your-org/mjlab/run-id
 ```
 
+## Contributing
+
+We look forward for contributions. Before submitting a PR, please run the following command for format:
+
+```bash
+make format
+```
+
 ## Acknowledgements
 
 We're grateful to the people behind MjLab, MuJoCo Warp and Isaac Lab.
