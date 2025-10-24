@@ -62,6 +62,8 @@ uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Play --wandb-run-path your-org/mjlab
 - [ ] Use rough terrains
 - [ ] Add a head to the robot
 
+Check [here](https://github.com/BDX-R) for the general roadmap of the project!
+
 ## 🛠️ Contributing
 
 We look forward for contributions. Before submitting a PR, please run the following command for format:
