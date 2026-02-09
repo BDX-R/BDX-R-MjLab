@@ -1,0 +1,520 @@
+<mujoco model="bdx-r">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>  
+
+  <default>
+    <default class="bdx-r">
+      <site group="5" rgba="1 0 0 1" size="0.01" />
+      <default class="visual">
+          <geom type="mesh" contype="0" conaffinity="0" group="2" density="0" material="black"/>
+      </default>
+      <default class="collision">
+          <geom type="capsule" group="3" material="bright_orange" contype="1" conaffinity="1"/>
+      </default>
+    </default>
+  </default>
+
+
+  <asset>
+    <!-- Textures -->
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="512"/>
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512" height="512" mark="cross" markrgb=".8 .8 .8"/>
+
+    <!-- Materials -->
+    <material name="neon_green" rgba="0.22 1.0 0.08 1.0"/>
+    <material name="white" rgba="1.0 1.0 1.0 1.0"/>
+    <material name="black" rgba="0.0 0.0 0.0 1.0"/>
+    <material name="silver" rgba="0.75 0.75 0.75 1.0"/>
+    <material name="red" rgba="1 0 0 1"/>
+    <material name="bright_orange"  rgba="1 0.65 0 0.2"/>
+
+    <!-- Meshes -->
+    <mesh name="base_link" file="base_link.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Yaw_Motor" file="Left_Hip_Yaw_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Yaw_Motor" file="Right_Hip_Yaw_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Neck_Motor" file="Neck_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Neck" file="Neck.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Bottom_Cover" file="Bottom_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Yaw_Support" file="Right_Hip_Yaw_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Yaw_Support" file="Left_Hip_Yaw_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Base_Top_Clamp" file="Base_Top_Clamp.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Pitch_Motor" file="Head_Pitch_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Holder" file="Left_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Top_Base_Frame" file="Top_Base_Frame.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Pitch_Motor_Support" file="Head_Pitch_Motor_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Yaw_Motor" file="Head_Yaw_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Roll_Connector" file="Head_Roll_Connector.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Roll_Motor" file="Head_Roll_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Roll_Motor_Mount" file="Head_Roll_Motor_Mount.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Front_Support" file="Front_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Cable_Support" file="Right_Cable_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Base_Plate" file="Head_Base_Plate.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Eye" file="Right_Eye.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Front_Cover" file="Front_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Head_Support" file="Right_Head_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Front_Cover" file="Right_Front_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Eye" file="Left_Eye.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Holder" file="Right_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Head_Support" file="Left_Head_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Front_Cover" file="Left_Front_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Battery_Holder" file="Battery_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Cable_Support" file="Left_Cable_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Battery" file="Battery.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Back_Support" file="Back_Support.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Rear_Cover" file="Rear_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Face" file="Face.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Head_Rear_Cover" file="Head_Rear_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Rear_Head_Plate" file="Rear_Head_Plate.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Ear" file="Right_Ear.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Ear" file="Left_Ear.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Top_Holder" file="Left_Hip_Top_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Roll_Motor" file="Left_Hip_Roll_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Roll_Connector" file="Left_Hip_Roll_Connector.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Pitch_Motor" file="Left_Hip_Pitch_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Upper_Leg" file="Left_Upper_Leg.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Hip_Bottom_Holder" file="Left_Hip_Bottom_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Knee_Motor" file="Left_Knee_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Lower_Leg" file="Left_Lower_Leg.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Ankle_Cover" file="Left_Ankle_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Ankle_Motor" file="Left_Ankle_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Foot" file="Left_Foot.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Foot_Pad" file="Left_Foot_Pad.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Foot_Cover" file="Left_Foot_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Upper_Leg_Cover" file="Left_Upper_Leg_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Lower_Leg_Cover" file="Left_Lower_Leg_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Upper_Leg_Detail" file="Left_Upper_Leg_Detail.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Camera_Mount" file="Camera_Mount.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Front_Grill" file="Front_Grill.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Rear_Antenna_Box" file="Rear_Antenna_Box.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Top_Holder" file="Right_Hip_Top_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Roll_Motor" file="Right_Hip_Roll_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Roll_Connector" file="Right_Hip_Roll_Connector.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Bottom_Holder" file="Right_Hip_Bottom_Holder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Hip_Pitch_Motor" file="Right_Hip_Pitch_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Upper_Leg" file="Right_Upper_Leg.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Knee_Motor" file="Right_Knee_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Lower_Leg" file="Right_Lower_Leg.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Ankle_Motor" file="Right_Ankle_Motor.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Foot" file="Right_Foot.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Foot_Pad" file="Right_Foot_Pad.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Foot_Cover" file="Right_Foot_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Upper_Leg_Cover" file="Right_Upper_Leg_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Lower_Leg_Cover" file="Right_Lower_Leg_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Upper_Leg_Detail" file="Right_Upper_Leg_Detail.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Ankle_Cover" file="Right_Ankle_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Left_Top_Cover" file="Left_Top_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="Right_Top_Cover" file="Right_Top_Cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="imu_mount" file="imu_mount.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="imu" file="imu.stl" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link" pos="0 0 0.33" childclass="bdx-r">
+      <freejoint/>
+      <inertial pos="-0.087197 -3.9994e-05 -0.0342399" mass="1" fullinertia="0.042338 0.058645 0.033168 7e-05 0.0057 3.4e-05"/>
+      <geom class="visual" mesh="base_link"/>
+      <geom class="collision" name="base_collision" size="0.12" fromto="-0.2 0 0 -0.05 0 0"/>
+
+      <!-- ATTACHMENT: Bottom Cover -->
+      <body name="Bottom_Cover" pos="-0.075084 0.063 -0.123908">
+        <inertial pos="-0.002157 -0.063 0.000914" mass="0.1" fullinertia="0.000618 6.5e-05 0.000671 0 0 0"/>
+        <geom class="visual" mesh="Bottom_Cover" material="white" pos="0.075084 -0.063 0.123908"/>
+      </body>
+
+      <!-- ATTACHMENT: Hip Supports -->
+      <body name="Right_Hip_Yaw_Support" pos="-0.045104 -0.01775 0.002892">
+        <inertial pos="-0.002428 -0.029803 -0.005776" mass="0.08" fullinertia="0.000485 0.000326 0.00034 -1e-05 3.5e-05 7e-06"/>
+        <geom class="visual" mesh="Right_Hip_Yaw_Support" pos="0.045104 0.01775 -0.002892"/>
+      </body>
+      <body name="Left_Hip_Yaw_Support" pos="-0.045104 0.01775 0.002892">
+        <inertial pos="-0.002464 0.029604 -0.005672" mass="0.08" fullinertia="0.000479 0.000323 0.000336 1e-05 3.4e-05 -8e-06"/>
+        <geom class="visual" mesh="Left_Hip_Yaw_Support" pos="0.045104 -0.01775 -0.002892"/>
+      </body>
+
+      <!-- ATTACHMENT: Base Top Clamp -->
+      <body name="Base_Top_Clamp" pos="-0.157 -0.06 0.063636">
+        <inertial pos="0.011572 0.06 0.004831" mass="0.044" fullinertia="0.000471 8.8e-05 0.000553 0 -1e-06 0"/>
+        <geom class="visual" mesh="Base_Top_Clamp" pos="0.157 0.06 -0.063636"/>
+        
+        <!-- IMU Stack -->
+        <body name="imu_mount" pos="0.008626 0.091249 0.01">
+            <inertial pos="0.0455 -0.031249 0.009645" mass="0.03" fullinertia="0.000153 0.000224 0.000359 0 2e-05 0"/>
+            <geom class="visual" mesh="imu_mount" pos="0.148374 -0.031249 -0.073636"/>
+            <site name='imu' size='0.01' pos='0.00865 -0.010349 0.015' />
+            <body name="imu" pos="0.00865 -0.010349 0.015">
+                <inertial pos="0.007581 -0.0209 0.013692" mass="0.05" fullinertia="2.8e-05 1.8e-05 3.1e-05 0 0 0"/>
+                <geom class="visual" mesh="imu" pos="0.139724 -0.0209 -0.088636"/>
+            </body>
+        </body>
+      </body>
+
+      <!-- ATTACHMENT: Holders -->
+      <body name="Left_Holder" pos="-0.1581 0.090997 0.065042">
+         <inertial pos="0.065465 0.02028 9e-05" mass="0.08" fullinertia="0.000338 0.001539 0.001296 -0.000176 0.000298 9e-06"/>
+         <geom class="visual" mesh="Left_Holder" pos="0.1581 -0.090997 -0.065042"/>
+      </body>
+      <body name="Right_Holder" pos="-0.1581 -0.090997 0.065042">
+         <inertial pos="0.0661 -0.020325 -0.000478" mass="0.08" fullinertia="0.000331 0.001536 0.001298 0.000176 0.000301 -1.1e-05"/>
+         <geom class="visual" mesh="Right_Holder" pos="0.1581 0.090997 -0.065042"/>
+      </body>
+
+      <!-- ATTACHMENT: Top Frame -->
+      <body name="Top_Base_Frame" pos="-0.148285 0.084346 0.090657">
+         <inertial pos="0.087658 -0.084346 0.008533" mass="0.15" fullinertia="0.005038 0.003533 0.008543 0 -3.4e-05 0"/>
+         <geom class="visual" mesh="Top_Base_Frame" pos="0.148285 -0.084346 -0.090657"/>
+         <!-- Left/Right Top Covers -->
+         <body name="Left_Top_Cover" pos="0.100005 0.014043 -0.004554">
+            <inertial pos="-0.044107 -0.010096 0.000434" mass="0.03" fullinertia="0.000197 0.000482 0.000427 4e-06 6e-06 6.6e-05"/>
+            <geom class="visual" mesh="Left_Top_Cover" material="silver" pos="0.04828 -0.098389 -0.086103"/>
+         </body>
+         <body name="Right_Top_Cover" pos="0.100005 -0.182735 -0.004554">
+            <inertial pos="-0.044107 0.010096 0.000434" mass="0.03" fullinertia="0.000197 0.000482 0.000427 -4e-06 6e-06 -6.6e-05"/>
+            <geom class="visual" mesh="Right_Top_Cover" material="silver" pos="0.04828 0.098389 -0.086103"/>
+         </body>
+      </body>
+
+      <!-- ATTACHMENT: Battery & Rear Assembly -->
+      <body name="Battery_Holder" pos="-0.157777 0.0 -0.083128">
+         <inertial pos="-0.011259 0 0.074214" mass="0.18" fullinertia="0.003194 0.002315 0.000949 0 7.7e-05 0"/>
+         <geom class="visual" mesh="Battery_Holder" material="silver" pos="0.157777 -0.0 0.083128"/>
+         <body name="Battery" pos="-0.024139 -0.0278 0.14533">
+            <inertial pos="-0.031873 0.0275 -0.046524" mass="1.25" fullinertia="0.020895 0.020316 0.008316 0 -0.000252 0"/>
+            <geom class="visual" mesh="Battery" pos="0.181916 0.0278 -0.062202"/>
+         </body>
+         <body name="Back_Support" pos="-0.018024 0.0 0.0">
+            <inertial pos="-0.016338 0.000858 0.078592" mass="0.1" fullinertia="0.007073 0.003535 0.004743 6e-06 0.000348 -2.5e-05"/>
+            <geom class="visual" mesh="Back_Support" material="silver" pos="0.175801 -0.0 0.083128"/>
+            <body name="Rear_Cover" pos="0.005701 -0.014557 -0.031856">
+                <inertial pos="-0.037942 0.015443 0.08144" mass="0.15" fullinertia="0.003477 0.002602 0.002166 0 0.000505 0"/>
+                <geom class="visual" mesh="Rear_Cover" material="silver" pos="0.1701 0.014557 0.114984"/>
+                <body name="Rear_Antenna_Box" pos="-0.089906 -0.033615 0.123682">
+                    <inertial pos="-0.022637 0.049551 -0.008124" mass="0.1" fullinertia="0.001016 0.000514 0.000582 0 1e-05 -1e-06"/>
+                    <geom class="visual" mesh="Rear_Antenna_Box" material="silver" pos="0.260006 0.048172 -0.008698"/>
+                </body>
+            </body>
+         </body>
+      </body>
+
+      <!-- ATTACHMENT: Front Assembly -->
+      <body name="Front_Support" pos="-0.0112 0.01 -0.005406">
+        <inertial pos="0.002676 -0.01 -0.016527" mass="0.15" fullinertia="0.014288 0.006674 0.007707 0 7.8e-05 0"/>
+        <geom class="visual" mesh="Front_Support" material="silver" pos="0.0112 -0.01 0.005406"/>
+        <body name="Right_Cable_Support" pos="0.0 -0.102343 0.035039">
+           <inertial pos="-0.004644 0.012088 -0.002943" mass="0.08" fullinertia="0.000111 0.000115 0.000123 -1.3e-05 9e-06 3e-06"/>
+           <geom class="visual" mesh="Right_Cable_Support" material="silver" pos="0.0112 0.092343 -0.029633"/>
+        </body>
+        <body name="Left_Cable_Support" pos="0.0 0.082343 0.035039">
+           <inertial pos="-0.004644 -0.012088 -0.002943" mass="0.08" fullinertia="0.000111 0.000115 0.000123 1.3e-05 9e-06 -3e-06"/>
+           <geom class="visual" mesh="Left_Cable_Support" material="silver" pos="0.0112 -0.092343 -0.029633"/>
+        </body>
+        <body name="Front_Cover" pos="0.004894 -0.112243 -0.028497">
+            <inertial pos="0.033339 0.100268 0.033143" mass="0.2" fullinertia="0.039575 0.0241 0.020937 -0.00014 -0.00097 -0.000403"/>
+            <geom class="visual" mesh="Front_Cover" material="white" pos="0.006306 0.102243 0.033903"/>
+            <body name="Camera_Mount" pos="0.061778 0.154093 0.101024">
+                <inertial pos="-0.006173 -0.051526 -0.029339" mass="0.04" fullinertia="0.000378 0.000119 0.000303 -1e-06 -4e-06 -1e-06"/>
+                <geom class="visual" mesh="Camera_Mount" pos="-0.055472 -0.05185 -0.067121"/>
+            </body>
+            <body name="Front_Grill" pos="-0.725184 0.102193 -0.06274">
+                 <inertial pos="0.785358 0 0.03431" mass="0.01" fullinertia="0.000159 5.8e-05 0.000102 0 -1e-06 0"/>
+                 <geom class="visual" mesh="Front_Grill" pos="0.73149 5e-05 0.096643"/>
+            </body>
+        </body>
+      </body>
+
+      <!-- ================= LEFT LEG CHAIN ================= -->
+      <body name="Left_Hip_Yaw_Motor" pos="-0.148374 0.068751 0.024336">
+        <inertial pos="0.045214 -0.018732 0.021252" mass="0.92" fullinertia="0.000918 0.00088 0.001215 -1e-06 1e-06 6e-06"/>
+        <geom class="visual" mesh="Left_Hip_Yaw_Motor" pos="0.148374 -0.068751 -0.024336"/>
+        
+        <!-- JOINT: Left_Hip_Yaw -->
+        <body name="Left_Hip_Top_Holder" pos="0.04527 -0.018751 -0.0025">
+          <joint name="Left_Hip_Yaw" axis="0 0 1" range="-0.2618 0.2618"/>
+          <inertial pos="0.00162 0.003199 -0.011367" mass="0.08" fullinertia="0.000247 0.000261 0.000411 -5e-06 2.3e-05 1.1e-05"/>
+          <geom class="visual" mesh="Left_Hip_Top_Holder" pos="0.103104 -0.05 -0.021836"/>
+          
+          <body name="Left_Hip_Roll_Motor" pos="0.0155 0.031251 -0.017274">
+            <inertial pos="-0.02116 -0.018728 -0.045227" mass="0.92" fullinertia="0.001212 0.000876 0.000914 -6e-06 1e-06 1e-06"/>
+            <geom class="visual" mesh="Left_Hip_Roll_Motor" pos="0.087604 -0.081251 -0.004562"/>
+            <body name="Left_Hip_Bottom_Holder" pos="0 0 -0.09054">
+                <inertial pos="-0.013283 -0.026327 -0.002968" mass="0.075" fullinertia="0.000162 0.000187 0.000281 -3e-06 -2e-05 -3e-06"/>
+                <geom class="visual" mesh="Left_Hip_Bottom_Holder" pos="0.087604 -0.081251 0.085978"/>
+            </body>
+
+            <!-- JOINT: Left_Hip_Roll -->
+            <body name="Left_Hip_Roll_Connector" pos="0.0025 -0.018751 -0.04527">
+              <joint name="Left_Hip_Roll" axis="1 0 0" range="-0.349 0.2618"/>
+              <inertial pos="0.002336 0.02932 9e-05" mass="0.1" fullinertia="0.000314 7e-05 0.000291 3.6e-05 1e-06 -1e-06"/>
+              <geom class="visual" mesh="Left_Hip_Roll_Connector" pos="0.085104 -0.0625 0.040708"/>
+
+              <!-- JOINT: Left_Hip_Pitch -->
+              <body name="Left_Hip_Pitch_Motor" pos="-0.008646 0.07125 0.001341">
+                <joint name="Left_Hip_Pitch" axis="0 1 0" range="-0.698 1.047"/>
+                <inertial pos="6e-05 0.023752 -2e-05" mass="0.92" fullinertia="0.000918 0.001215 0.00088 -1e-06 -1e-06 -6e-06"/>
+                <geom class="visual" mesh="Left_Hip_Pitch_Motor" pos="0.09375 -0.13375 0.039367"/>
+                
+                <body name="Left_Upper_Leg" pos="-0.018752 0.0025 0.04527">
+                   <inertial pos="-0.024274 0.017265 -0.078797" mass="0.5" fullinertia="0.010775 0.01718 0.011452 -0.000235 -0.003926 -6.7e-05"/>
+                   <geom class="visual" mesh="Left_Upper_Leg" material="silver" pos="0.112502 -0.13625 -0.005903"/>
+                   <body name="Left_Upper_Leg_Cover" pos="0.058902 0.0465 -0.075069">
+                       <inertial pos="-0.040941 0.000937 0.038985" mass="0.075" fullinertia="0.000665 0.002193 0.001753 6.4e-05 -5.9e-05 4e-05"/>
+                       <geom class="visual" mesh="Left_Upper_Leg_Cover" material="silver" pos="0.0536 -0.18275 0.069166"/>
+                       <body name="Left_Upper_Leg_Detail" pos="-0.093612 0.011824 0.044456">
+                           <inertial pos="-0.024383 -0.001117 -0.028995" mass="0.01" fullinertia="7e-06 1.4e-05 7e-06 0 -6e-06 0"/>
+                           <geom class="visual" mesh="Left_Upper_Leg_Detail" material="neon_green" pos="0.147212 -0.194574 0.02471"/>
+                       </body>
+                   </body>
+                   <body name="Left_Lower_Leg_Cover" pos="-0.10624 0.0465 -0.111941">
+                       <inertial pos="0.065607 -0.000288 -0.020916" mass="0.057" fullinertia="0.000743 0.002662 0.002147 6.7e-05 -0.00039 -2.3e-05"/>
+                       <geom class="visual" mesh="Left_Lower_Leg_Cover" material="neon_green" pos="0.218742 -0.18275 0.106038"/>
+                   </body>
+
+                   <body name="Left_Knee_Motor" pos="-0.106013 0.0 -0.141269">
+                       <inertial pos="0.045479 0.021252 0.018347" mass="0.92" fullinertia="0.00088 0.001215 0.000918 6e-06 1e-06 -1e-06"/>
+                       <geom class="visual" mesh="Left_Knee_Motor" pos="0.218515 -0.13625 0.135366"/>
+                       
+                       <!-- JOINT: Left_Knee -->
+                       <body name="Left_Lower_Leg" pos="0.045459 -0.0025 0.01829">
+                           <joint name="Left_Knee" axis="0 -1 0" range="-1.309 0.9599"/>
+                           <inertial pos="0.012283 -0.021155 -0.065391" mass="0.33" fullinertia="0.009108 0.011365 0.003048 0.000146 0.00238 -0.000492"/>
+                           <geom class="visual" mesh="Left_Lower_Leg" pos="0.173056 -0.13375 0.117076"/>
+                           <body name="Left_Ankle_Cover" pos="0.072419 -0.045377 -0.097578">
+                               <inertial pos="-0.02727 -0.006354 -0.0325" mass="0.01" fullinertia="5.6e-05 0.00011 5.6e-05 0 0 0"/>
+                               <geom class="visual" mesh="Left_Ankle_Cover" material="neon_green" pos="0.100637 -0.088373 0.214654"/>
+                           </body>
+
+                           <body name="Left_Ankle_Motor" pos="0.009131 -0.00934 -0.124165">
+                               <inertial pos="0.036534 -0.016898 -0.007244" mass="0.405" fullinertia="0.000222 0.000317 0.000221 -1e-06 4e-06 -1e-06"/>
+                               <geom class="visual" mesh="Left_Ankle_Motor" pos="0.163925 -0.12441 0.241241"/>
+                               
+                               <!-- JOINT: Left_Ankle -->
+                               <body name="Left_Foot" pos="0.036018 0.004 -0.005913">
+                                   <joint name="Left_Ankle" axis="0 -1 0" range="-0.785 1.2217"/>
+                                   <inertial pos="0.02614 -0.004666 -0.039192" mass="0.22" fullinertia="0.001447 0.004937 0.004441 0.000142 0.000184 -0.000331"/>
+                                   <geom class="visual" mesh="Left_Foot" material="silver" pos="0.127907 -0.12841 0.247154"/>
+                                   <geom class="collision" name="left_foot_collision1" size="0.01" fromto="-0.045 -0.01 -0.071 0.1 -0.01 -0.071"/>
+                                   <geom class="collision" name="left_foot_collision2" size="0.01" fromto="-0.045 -0.025 -0.071 0.1 -0.025 -0.071"/>
+                                   <site name="left_foot" pos="0.10668 -0.025682 -0.057538" size="0.01 0.01 0.01" rgba="0 1 0 0"/> 
+                                   <body name="Left_Foot_Pad" pos="0.10668 -0.025682 -0.057538">
+                                       <inertial pos="-0.0795 0.007701 -0.014067" mass="0.08" fullinertia="0.000118 0.001881 0.001957 0 0 0"/>
+                                       <geom class="visual" mesh="Left_Foot_Pad" material="silver" pos="0.021227 -0.102728 0.304692"/>
+                                   </body>
+                                   <body name="Left_Foot_Cover" pos="0.102636 0.0135 -0.048903">
+                                       <inertial pos="-0.053452 -0.014306 0.021311" mass="0.02" fullinertia="0.000477 0.000977 0.000856 0.000178 6.1e-05 3.8e-05"/>
+                                       <geom class="visual" mesh="Left_Foot_Cover" material="neon_green" pos="0.025271 -0.14191 0.296057"/>
+                                   </body>
+                               </body>
+                           </body>
+                       </body>
+                   </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+
+      <!-- ================= RIGHT LEG CHAIN ================= -->
+      <body name="Right_Hip_Yaw_Motor" pos="-0.148374 -0.068751 0.024336">
+        <inertial pos="0.045327 0.018732 0.021252" mass="0.92" fullinertia="0.000918 0.00088 0.001215 -1e-06 -1e-06 -6e-06"/>
+        <geom class="visual" mesh="Right_Hip_Yaw_Motor" pos="0.148374 0.068751 -0.024336"/>
+        
+        <!-- JOINT: Right_Hip_Yaw -->
+        <body name="Right_Hip_Top_Holder" pos="0.04527 0.018751 -0.0025">
+           <joint name="Right_Hip_Yaw" axis="0 0 1" range="-0.2618 0.2618"/>
+           <inertial pos="0.00162 -0.003199 -0.013107" mass="0.08" fullinertia="0.000247 0.000261 0.000411 5e-06 2.3e-05 -1.1e-05"/>
+           <geom class="visual" mesh="Right_Hip_Top_Holder" pos="0.103104 0.05 -0.021836"/>
+
+           <body name="Right_Hip_Roll_Motor" pos="0.0155 0.006251 -0.019014">
+               <inertial pos="-0.02116 -0.018774 -0.045227" mass="0.92" fullinertia="0.001212 0.000876 0.000914 6e-06 1e-06 -1e-06"/>
+               <geom class="visual" mesh="Right_Hip_Roll_Motor" pos="0.087604 0.043749 -0.002822"/>
+               <body name="Right_Hip_Bottom_Holder" pos="0 0 -0.09054">
+                   <inertial pos="-0.013283 -0.011175 -0.002968" mass="0.075" fullinertia="0.000162 0.000187 0.000281 3e-06 -2e-05 3e-06"/>
+                   <geom class="visual" mesh="Right_Hip_Bottom_Holder" pos="0.087604 0.043749 0.087718"/>
+               </body>
+
+               <!-- JOINT: Right_Hip_Roll -->
+               <body name="Right_Hip_Roll_Connector" pos="0.0025 -0.018751 -0.04527">
+                   <joint name="Right_Hip_Roll" axis="-1 0 0" range="-0.349 0.2618"/>
+                   <inertial pos="0.002336 -0.02932 9e-05" mass="0.1" fullinertia="0.000314 7e-05 0.000291 -3.6e-05 1e-06 1e-06"/>
+                   <geom class="visual" mesh="Right_Hip_Roll_Connector" pos="0.085104 0.0625 0.042448"/>
+
+                   <!-- JOINT: Right_Hip_Pitch -->
+                   <body name="Right_Hip_Pitch_Motor" pos="-0.008646 -0.07125 0.001341">
+                       <joint name="Right_Hip_Pitch" axis="0 -1 0" range="-1.047 0.698"/>
+                       <inertial pos="6e-05 -0.023752 -2e-05" mass="0.92" fullinertia="0.000918 0.001215 0.00088 1e-06 -1e-06 6e-06"/>
+                       <geom class="visual" mesh="Right_Hip_Pitch_Motor" pos="0.09375 0.13375 0.041107"/>
+                       
+                       <body name="Right_Upper_Leg" pos="-0.018752 -0.0025 0.04527">
+                           <inertial pos="-0.024281 -0.017242 -0.078769" mass="0.5" fullinertia="0.01076 0.017182 0.011445 0.000229 -0.003927 6.8e-05"/>
+                           <geom class="visual" mesh="Right_Upper_Leg" pos="0.112502 0.13625 -0.004163"/>
+                           <body name="Right_Upper_Leg_Cover" pos="0.058902 -0.0465 -0.075069">
+                               <inertial pos="-0.040941 -0.000937 0.038985" mass="0.075" fullinertia="0.000665 0.002193 0.001753 -6.4e-05 -5.9e-05 -4e-05"/>
+                               <geom class="visual" mesh="Right_Upper_Leg_Cover" material="silver" pos="0.0536 0.18275 0.070906"/>
+                               <body name="Right_Upper_Leg_Detail" pos="-0.093612 -0.011824 0.042716">
+                                   <inertial pos="-0.022199 0.000585 -0.026978" mass="0.01" fullinertia="7e-06 1.4e-05 7e-06 0 -6e-06 -0"/>
+                                   <geom class="visual" mesh="Right_Upper_Leg_Detail" material="neon_green" pos="0.147212 0.194574 0.02819"/>
+                               </body>
+                           </body>
+                           <body name="Right_Lower_Leg_Cover" pos="-0.10624 -0.0465 -0.111941">
+                               <inertial pos="0.063691 -0.00605 -0.017485" mass="0.057" fullinertia="0.0004 0.001361 0.001071 -1.4e-05 -0.000208 2.7e-05"/>
+                               <geom class="visual" mesh="Right_Lower_Leg_Cover" material="neon_green" pos="0.218742 0.18275 0.107778"/>
+                           </body>
+
+                           <body name="Right_Knee_Motor" pos="-0.078844 0.0 -0.07752">
+                               <inertial pos="0.01831 -0.021252 -0.045402" mass="0.92" fullinertia="0.00088 0.001215 0.000918 -6e-06 1e-06 1e-06"/>
+                               <geom class="visual" mesh="Right_Knee_Motor" pos="0.191346 0.13625 0.073357"/>
+                               
+                               <!-- JOINT: Right_Knee -->
+                               <body name="Right_Lower_Leg" pos="0.01829 0.0025 -0.045459">
+                                   <joint name="Right_Knee" axis="0 -1 0" range="-1.309 0.9599"/>
+                                   <inertial pos="0.012283 0.021155 -0.065391" mass="0.33" fullinertia="0.009108 0.011365 0.003048 -0.000146 0.00238 0.000492"/>
+                                   <geom class="visual" mesh="Right_Lower_Leg" pos="0.173056 0.13375 0.118816"/>
+                                   <body name="Right_Ankle_Cover" pos="0.017878 0.045377 -0.162577">
+                                       <inertial pos="0.027271 0.006354 0.032499" mass="0.01" fullinertia="5.6e-05 0.00011 5.6e-05 0 0 0"/>
+                                       <geom class="visual" mesh="Right_Ankle_Cover" material="neon_green" pos="0.155178 0.088373 0.281393"/>
+                                   </body>
+
+                                   <body name="Right_Ankle_Motor" pos="0.044717 0.00934 -0.09358">
+                                       <inertial pos="0.000948 0.016898 -0.037829" mass="0.405" fullinertia="0.000222 0.000317 0.000221 1e-06 4e-06 1e-06"/>
+                                       <geom class="visual" mesh="Right_Ankle_Motor" pos="0.128339 0.12441 0.212396"/>
+                                       
+                                       <!-- JOINT: Right_Ankle -->
+                                       <body name="Right_Foot" pos="0.000432 -0.004 -0.036498">
+                                           <joint name="Right_Ankle" axis="0 -1 0" range="-0.785 1.2217"/>
+                                           <inertial pos="0.02614 0.004666 -0.039192" mass="0.22" fullinertia="0.001447 0.004937 0.004441 -0.000142 0.000184 0.000331"/>
+                                           <geom class="visual" mesh="Right_Foot" material="silver" pos="0.127907 0.12841 0.248894"/>
+                                           <geom class="collision" name="right_foot_collision1" size="0.01" fromto="-0.045 0.01 -0.071 0.1 0.01 -0.071"/>
+                                           <geom class="collision" name="right_foot_collision2" size="0.01" fromto="-0.045 0.025 -0.071 0.1 0.025 -0.071"/>
+                                           <site name="right_foot" pos="0.10668 0.018025 -0.059278" size="0.01 0.01 0.01" rgba="0 1 0 0"/> 
+                                           <body name="Right_Foot_Pad" pos="0.10668 0.018025 -0.059278">
+                                               <inertial pos="-0.0795 0 -0.012327" mass="0.08" fullinertia="0.000118 0.001881 0.001957 0 0 0"/>
+                                               <geom class="visual" mesh="Right_Foot_Pad" material="silver" pos="0.021227 0.110385 0.308172"/>
+                                           </body>
+                                           <body name="Right_Foot_Cover" pos="-0.041752 -0.0135 -0.042544">
+                                               <inertial pos="0.09107 0.014411 0.015231" mass="0.02" fullinertia="0.000512 0.001003 0.000864 -0.000182 5.3e-05 -4.9e-05"/>
+                                               <geom class="visual" mesh="Right_Foot_Cover" material="neon_green" pos="0.169659 0.14191 0.291438"/>
+                                           </body>
+                                       </body>
+                                   </body>
+                               </body>
+                           </body>
+                       </body>
+                   </body>
+               </body>
+           </body>
+        </body>
+      </body>
+
+      <!-- ================= HEAD CHAIN ================= -->
+      <body name="Neck_Motor" pos="0.017134 -0.01645 0.044533">
+        <inertial pos="-0.030899 0.016898 0.020715" mass="0.405" fullinertia="0.000222 0.000313 0.000217 -1e-06 2e-06 -0"/>
+        <geom class="visual" mesh="Neck_Motor" pos="-0.017134 0.01645 -0.044533"/>
+
+        <!-- JOINT: Neck_Pitch -->
+        <body name="Neck" pos="-0.030954 -0.004 0.019342">
+           <joint name="Neck_Pitch" axis="0 1 0" range="-0.349 0.872"/>
+           <inertial pos="-0.025459 0.012476 0.060682" mass="0.2" fullinertia="0.001657 0.001959 0.001097 0.000115 0.000638 -0.000281"/>
+           <geom class="visual" mesh="Neck" pos="0.01382 0.02045 -0.063875"/>
+
+           <body name="Head_Pitch_Motor" pos="-0.047284 -0.00566 0.100231">
+               <inertial pos="-0.017591 0.017246 0.011297" mass="0.242" fullinertia="6.7e-05 5.9e-05 6.7e-05 0 0 -0"/>
+               <geom class="visual" mesh="Head_Pitch_Motor" pos="0.061104 0.02611 -0.164106"/>
+               
+               <!-- JOINT: Head_Pitch -->
+               <body name="Head_Pitch_Motor_Support" pos="-0.017501 0.0 0.011149">
+                   <joint name="Head_Pitch" axis="0 1 0" range="-1.047 0.872"/>
+                   <inertial pos="-0.008749 0.014921 0.040678" mass="0.08" fullinertia="0.000418 0.00034 0.00018 1.5e-05 6.4e-05 -6.2e-05"/>
+                   <geom class="visual" mesh="Head_Pitch_Motor_Support" pos="0.078605 0.02611 -0.175255"/>
+                   
+                   <body name="Head_Yaw_Motor" pos="-0.017969 0.027051 0.074357">
+                       <inertial pos="0.01916 -0.008114 -0.017246" mass="0.242" fullinertia="6.6e-05 6.7e-05 5.9e-05 -0 -0 -1e-06"/>
+                       <geom class="visual" mesh="Head_Yaw_Motor" pos="0.096574 -0.000941 -0.249612"/>
+                       
+                       <!-- JOINT: Head_Yaw -->
+                       <body name="Head_Roll_Connector" pos="0.01917 -0.007941 0.0">
+                           <joint name="Head_Yaw" axis="0 0 -1" range="-0.872 0.872"/>
+                           <inertial pos="0.020343 -4e-08 0.003477" mass="0.05" fullinertia="2.8e-05 7.4e-05 7.2e-05 -0 1.4e-05 0"/>
+                           <geom class="visual" mesh="Head_Roll_Connector" pos="0.077404 0.007 -0.249612"/>
+
+                           <!-- JOINT: Head_Roll -->
+                           <body name="Head_Roll_Motor" pos="0.043997 0.0 -0.009">
+                               <joint name="Head_Roll" axis="-1 0 0" range="-0.523 0.523"/>
+                               <inertial pos="0.017246 -0.000173 -1e-05" mass="0.242" fullinertia="5.9e-05 6.7e-05 6.6e-05 1e-06 0 -0"/>
+                               <geom class="visual" mesh="Head_Roll_Motor" pos="0.033407 0.007 -0.240612"/>
+
+                               <body name="Head_Roll_Motor_Mount" pos="0 0.01917 -0.00794">
+                                   <inertial pos="0.015202 -0.020057 -0.011798" mass="0.08" fullinertia="0.000227 0.000133 0.000316 3e-06 9e-06 5e-06"/>
+                                   <geom class="visual" mesh="Head_Roll_Motor_Mount" pos="0.033407 -0.01217 -0.232672"/>
+                                   
+                                   <body name="Head_Base_Plate" pos="0.0021 -0.046722 -0.021495">
+                                       <inertial pos="-0.031407 0.026759 -0.001" mass="0.24" fullinertia="0.004481 0.00289 0.007371 0 0 -0"/>
+                                       <geom class="visual" mesh="Head_Base_Plate" material="silver" pos="0.031307 0.034552 -0.211177"/>
+                                       <body name="Right_Eye" pos="0.058599 -0.056479 0.0">
+                                            <inertial pos="0.005267 0.022107 0.020791" mass="0.02" fullinertia="4.8e-05 3e-05 2.6e-05 -1e-06 -3e-06 -1e-06"/>
+                                            <geom class="visual" mesh="Right_Eye" pos="-0.027292 0.091031 -0.211177"/>
+                                       </body>
+                                       <body name="Left_Eye" pos="0.058599 0.109997 0.0">
+                                            <inertial pos="0.004305 -0.0227 0.021499" mass="0.02" fullinertia="4.7e-05 2.9e-05 2.4e-05 2e-06 -3e-06 2e-06"/>
+                                            <geom class="visual" mesh="Left_Eye" pos="-0.027292 -0.075445 -0.211177"/>
+                                       </body>
+                                       <body name="Right_Head_Support" pos="-0.123278 -0.074652 0.0">
+                                            <inertial pos="0.011638 -0.001882 0.007323" mass="0.04" fullinertia="5.3e-05 0.000496 0.000544 0.000156 1e-05 -4e-06"/>
+                                            <geom class="visual" mesh="Right_Head_Support" material="silver" pos="0.154585 0.109204 -0.211177"/>
+                                            <body name="Right_Front_Cover" pos="0.087134 -0.028034 0.010956">
+                                                <inertial pos="0.063714 0.038104 0.037335" mass="0.1" fullinertia="0.001526 0.001228 0.002112 -0.000297 -0.000298 -0.000419"/>
+                                                <geom class="visual" mesh="Right_Front_Cover" material="neon_green" pos="0.067451 0.137238 -0.222133"/>
+                                            </body>
+                                       </body>
+                                       <body name="Left_Head_Support" pos="-0.027746 0.157732 0.0">
+                                            <inertial pos="-0.083894 -0.02768 0.007323" mass="0.04" fullinertia="5.3e-05 0.000496 0.000544 -0.000156 1e-05 4e-06"/>
+                                            <geom class="visual" mesh="Left_Head_Support" material="silver" pos="0.059053 -0.12318 -0.211177"/>
+                                            <body name="Left_Front_Cover" pos="-0.008598 -0.001727 0.010956">
+                                                <inertial pos="0.064045 -0.039863 0.036328" mass="0.1" fullinertia="0.001434 0.001196 0.001996 0.000261 -0.000291 0.000401"/>
+                                                <geom class="visual" mesh="Left_Front_Cover" material="neon_green" pos="0.067651 -0.121453 -0.222133"/>
+                                            </body>
+                                            <body name="Head_Rear_Cover" pos="-0.160886 -0.05027 0.014508">
+                                                <inertial pos="0.083317 -0.082711 0.032305" mass="0.1" fullinertia="0.012409 0.009472 0.02046 0 -0.001544 -0"/>
+                                                <geom class="visual" mesh="Head_Rear_Cover" material="silver" pos="0.219939 -0.07291 -0.225685"/>
+                                                <body name="Rear_Head_Plate" pos="-0.022049 -0.04439 -0.005961">
+                                                    <inertial pos="0.029816 -0.038328 -0.007236" mass="0.05" fullinertia="0.000437 6.4e-05 0.000499 -1e-06 7e-06 -2e-06"/>
+                                                    <geom class="visual" mesh="Rear_Head_Plate" material="silver" pos="0.241988 -0.02852 -0.219724"/>
+                                                </body>
+                                                <body name="Right_Ear" pos="0.01556 -0.168582 0.012759">
+                                                    <inertial pos="-0.005812 -0.015596 0.01133" mass="0.01" fullinertia="5.7e-05 5.6e-05 1.3e-05 -1e-06 -4e-06 -1.1e-05"/>
+                                                    <geom class="visual" mesh="Right_Ear" pos="0.204379 0.095672 -0.238444"/>
+                                                </body>
+                                                <body name="Left_Ear" pos="0.01556 0.003159 0.012759">
+                                                    <inertial pos="-0.005812 0.015596 0.01133" mass="0.01" fullinertia="5.7e-05 5.6e-05 1.3e-05 1e-06 -4e-06 1.1e-05"/>
+                                                    <geom class="visual" mesh="Left_Ear" pos="0.204379 -0.076069 -0.238444"/>
+                                                </body>
+                                            </body>
+                                       </body>
+                                       <body name="Face" pos="0.052962 -0.098148 0.0">
+                                            <inertial pos="0.011944 0.124995 0.028009" mass="0.1" fullinertia="0.00292 0.000177 0.002764 -0 -1.2e-05 -0"/>
+                                            <geom class="visual" mesh="Face" material="silver" pos="-0.021655 0.1327 -0.211177"/>
+                                       </body>
+                                   </body>
+                               </body>
+                           </body>
+                       </body>
+                   </body>
+               </body>
+           </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+
+  <!-- if you add more collision, note that you can exclude two bodies to collide between each others-->
+  <!-- <contact>
+    <exclude body1="leg_left_ankle_link" body2="leg_left_knee_link"/>
+  </contact> -->
+
+  <sensor>
+    <gyro name="imu_ang_vel" site="imu"/>
+    <velocimeter name="imu_lin_vel" site="imu"/>
+    <accelerometer name="imu_lin_acc" site="imu"/>
+    <subtreeangmom name="root_angmom" body="base_link"/>
+  </sensor>
+
+</mujoco>
