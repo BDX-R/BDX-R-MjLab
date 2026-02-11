@@ -131,8 +131,8 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       debug_vis=True,
       ranges=UniformVelocityCommandCfg.Ranges(
         lin_vel_x=(-1.0, 1.0),
-        lin_vel_y=(-1.0, 1.0),
-        ang_vel_z=(-0.5, 0.5),
+        lin_vel_y=(-0.4, 0.4),
+        ang_vel_z=(-1.0, 1.0),
         heading=(-math.pi, math.pi),
       ),
     )
@@ -250,7 +250,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
         "std_walking": {},  # Set per-robot.
         "std_running": {},  # Set per-robot.
         "walking_threshold": 0.05,
-        "running_threshold": 1.5,
+        "running_threshold": 0.1,
       },
     ),
     "body_ang_vel": RewardTermCfg(
@@ -278,9 +278,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "foot_clearance": RewardTermCfg(
       func=mdp.feet_clearance,
-      weight=-2.0,
+      weight=-5.0,
       params={
-        "target_height": 0.1,
+        "target_height": 0.15,
         "command_name": "twist",
         "command_threshold": 0.05,
         "asset_cfg": SceneEntityCfg("robot", site_names=()),  # Set per-robot.
@@ -288,10 +288,10 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "foot_swing_height": RewardTermCfg(
       func=mdp.feet_swing_height,
-      weight=-0.25,
+      weight=-1,
       params={
         "sensor_name": "feet_ground_contact",
-        "target_height": 0.1,
+        "target_height": 0.15,
         "command_name": "twist",
         "command_threshold": 0.05,
         "asset_cfg": SceneEntityCfg("robot", site_names=()),  # Set per-robot.
@@ -299,7 +299,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "foot_slip": RewardTermCfg(
       func=mdp.feet_slip,
-      weight=-0.1,
+      weight=-0.2,
       params={
         "sensor_name": "feet_ground_contact",
         "command_name": "twist",
@@ -344,9 +344,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       params={
         "command_name": "twist",
         "velocity_stages": [
-          {"step": 0, "lin_vel_x": (-1.0, 1.0), "ang_vel_z": (-0.5, 0.5)},
-          {"step": 5000 * 24, "lin_vel_x": (-1.5, 2.0), "ang_vel_z": (-0.7, 0.7)},
-          {"step": 10000 * 24, "lin_vel_x": (-2.0, 3.0)},
+          {"step": 0, "lin_vel_x": (-0.4, 0.4), "lin_vel_y": (-0.1, 0.1), "ang_vel_z": (-0.3, 0.3)},
+          {"step": 5000 * 24, "lin_vel_x": (-0.7, 0.7), "lin_vel_y": (-0.25, 0.25), "ang_vel_z": (-0.6, 0.6)},
+          {"step": 10000 * 24, "lin_vel_x": (-1.0, 1.0), "lin_vel_y": (-0.4, 0.4), "ang_vel_z": (-1.0, 1.0)},
         ],
       },
     ),

@@ -91,14 +91,14 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
-    r".*Neck_Pitch.*": 0.1, r".*Head_Pitch.*": 0.1, r".*Head_Yaw.*": 0.1, r".*Head_Roll.*": 0.1,
+    r".*Neck_Pitch.*": 0.1, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
     r".*_Hip_Pitch.*": 0.3, r".*_Hip_Roll.*": 0.15, r".*_Hip_Yaw.*": 0.15,
-    r".*_Knee.*": 0.35, r".*_Ankle.*": 0.25,
+    r".*_Knee.*": 0.35, r".*_Ankle.*": 0.1,
   }
   cfg.rewards["pose"].params["std_running"] = {
-    r".*Neck_Pitch.*": 0.2, r".*Head_Pitch.*": 0.2, r".*Head_Yaw.*": 0.2, r".*Head_Roll.*": 0.2,
+    r".*Neck_Pitch.*": 0.2, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
     r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.2, r".*_Hip_Yaw.*": 0.2,
-    r".*_Knee.*": 0.6, r".*_Ankle.*": 0.35,
+    r".*_Knee.*": 0.6, r".*_Ankle.*": 0.2,
   }
 
   cfg.rewards["upright"].params["asset_cfg"].body_names = ("base_link",)
@@ -159,8 +159,8 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
     twist_cmd = cfg.commands["twist"]
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
-    twist_cmd.ranges.lin_vel_y = (-1, -1)
+    twist_cmd.ranges.lin_vel_x = (0.4, 0.4)
+    twist_cmd.ranges.lin_vel_y = (0.0, 0.0)
     twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
 
   return cfg
