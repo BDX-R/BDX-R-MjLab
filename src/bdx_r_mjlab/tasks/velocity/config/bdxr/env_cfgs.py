@@ -12,7 +12,7 @@ from mjlab.managers.reward_manager import RewardTermCfg
 from mjlab.sensor import ContactMatch, ContactSensorCfg, RayCastSensorCfg
 from mjlab.tasks.velocity import mdp
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
-from mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
+from bdx_r_mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
 
 
 def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
@@ -25,16 +25,20 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.scene.entities = {"robot": get_bdxr_robot_cfg()}
 
-    # Set raycast sensor frame to BDXR base_link.
-  for sensor in cfg.scene.sensors or ():
-    if sensor.name == "terrain_scan":
-      assert isinstance(sensor, RayCastSensorCfg)
-      sensor.frame.name = "base_link"
+  # --- Raycaster Removal (Rough) ---
+  # Remove terrain_scan sensor from the scene
+  cfg.scene.sensors = tuple(
+    s for s in (cfg.scene.sensors or ()) if s.name != "terrain_scan"
+  )
+  # Remove the height_scan observation terms safely
+  if "height_scan" in cfg.observations["actor"].terms:
+    del cfg.observations["actor"].terms["height_scan"]
+  if "height_scan" in cfg.observations["critic"].terms:
+    del cfg.observations["critic"].terms["height_scan"]
+  # ---------------------------------
 
   site_names = ("left_foot", "right_foot") 
-
   geom_names = ("Left_Foot_Pad", "Right_Foot_Pad") 
-
 
   feet_ground_cfg = ContactSensorCfg(
     name="feet_ground_contact",
@@ -57,6 +61,8 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     reduce="none",
     num_slots=1,
   )
+  
+  # Set sensors
   cfg.scene.sensors = (feet_ground_cfg, self_collision_cfg)
 
   if cfg.scene.terrain is not None and cfg.scene.terrain.terrain_generator is not None:
@@ -71,58 +77,28 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   twist_cmd = cfg.commands["twist"]
   assert isinstance(twist_cmd, UniformVelocityCommandCfg)
   twist_cmd.viz.z_offset = 1.15
+  twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
+  twist_cmd.ranges.lin_vel_y = (-1, -1)
+  twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
+
 
   cfg.observations["critic"].terms["foot_height"].params[
     "asset_cfg"
   ].site_names = site_names
 
-  #cfg.events["foot_friction"].params["asset_cfg"].geom_names = geom_names
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_link",)
 
-  # Rationale for std values:
-  # - Knees/hip_pitch get the loosest std to allow natural leg bending during stride.
-  # - Hip roll/yaw stay tighter to prevent excessive lateral sway and keep gait stable.
-  # - Ankle roll is very tight for balance; ankle pitch looser for foot clearance.
-  # - Waist roll/pitch stay tight to keep the torso upright and stable.
-  # - Shoulders/elbows get moderate freedom for natural arm swing during walking.
-  # - Wrists are loose (0.3) since they don't affect balance much.
-  # Running values are ~1.5-2x walking values to accommodate larger motion range.
+  # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
-    #Upper body
-    r".*Neck_Pitch.*": 0.1,
-    r".*Head_Pitch.*": 0.1,
-    r".*Head_Yaw.*": 0.1,
-    r".*Head_Roll.*": 0.1,
-    # Lower body.
-    r".*_Hip_Pitch.*": 0.3,
-    r".*_Hip_Roll.*": 0.15,
-    r".*_Hip_Yaw.*": 0.15,
-    r".*_Knee.*": 0.35,
-    r".*_Ankle.*": 0.25,
+    r".*Neck_Pitch.*": 0.1, r".*Head_Pitch.*": 0.1, r".*Head_Yaw.*": 0.1, r".*Head_Roll.*": 0.1,
+    r".*_Hip_Pitch.*": 0.3, r".*_Hip_Roll.*": 0.15, r".*_Hip_Yaw.*": 0.15,
+    r".*_Knee.*": 0.35, r".*_Ankle.*": 0.25,
   }
   cfg.rewards["pose"].params["std_running"] = {
-    #Upper body
-    r".*Neck_Pitch.*": 0.2,
-    r".*Head_Pitch.*": 0.2,
-    r".*Head_Yaw.*": 0.2,
-    r".*Head_Roll.*": 0.2,
-    # Lower body.
-    r".*_Hip_Pitch.*": 0.5,
-    r".*_Hip_Roll.*": 0.2,
-    r".*_Hip_Yaw.*": 0.2,
-    r".*_Knee.*": 0.6,
-    r".*_Ankle.*": 0.35,
-    ## Waist.
-    #r".*waist_yaw.*": 0.3,
-    #r".*waist_roll.*": 0.08,
-    #r".*waist_pitch.*": 0.2,
-    # Arms.
-    #r".*shoulder_pitch.*": 0.5,
-    #r".*shoulder_roll.*": 0.2,
-    #r".*shoulder_yaw.*": 0.15,
-    #r".*elbow.*": 0.35,
-    #r".*wrist.*": 0.3,
+    r".*Neck_Pitch.*": 0.2, r".*Head_Pitch.*": 0.2, r".*Head_Yaw.*": 0.2, r".*Head_Roll.*": 0.2,
+    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.2, r".*_Hip_Yaw.*": 0.2,
+    r".*_Knee.*": 0.6, r".*_Ankle.*": 0.35,
   }
 
   cfg.rewards["upright"].params["asset_cfg"].body_names = ("base_link",)
@@ -141,11 +117,8 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     params={"sensor_name": self_collision_cfg.name},
   )
 
-  # Apply play mode overrides.
   if play:
-    # Effectively infinite episode length.
     cfg.episode_length_s = int(1e9)
-
     cfg.observations["actor"].enable_corruption = False
     cfg.events.pop("push_robot", None)
     cfg.events["randomize_terrain"] = EventTermCfg(
@@ -154,18 +127,12 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
       params={},
     )
 
-    if cfg.scene.terrain is not None:
-      if cfg.scene.terrain.terrain_generator is not None:
-        cfg.scene.terrain.terrain_generator.curriculum = False
-        cfg.scene.terrain.terrain_generator.num_cols = 5
-        cfg.scene.terrain.terrain_generator.num_rows = 5
-        cfg.scene.terrain.terrain_generator.border_width = 10.0
-
   return cfg
 
 
 def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   """Create BDX-R flat terrain velocity configuration."""
+  # This calls bdxr_rough_env_cfg, which already removes the raycaster
   cfg = bdxr_rough_env_cfg(play=play)
 
   cfg.sim.njmax = 300
@@ -178,25 +145,22 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.scene.terrain.terrain_type = "plane"
   cfg.scene.terrain.terrain_generator = None
 
-  # Remove raycast sensor and height scan (no terrain to scan).
-  cfg.scene.sensors = tuple(
-    s for s in (cfg.scene.sensors or ()) if s.name != "terrain_scan"
-  )
-  del cfg.observations["actor"].terms["height_scan"]
-  del cfg.observations["critic"].terms["height_scan"]
+  # NOTE: Raycaster removal lines were removed from here because 
+  # they are now handled inside bdxr_rough_env_cfg.
 
   # Disable terrain curriculum.
-  assert "terrain_levels" in cfg.curriculum
-  del cfg.curriculum["terrain_levels"]
+  if "terrain_levels" in cfg.curriculum:
+    del cfg.curriculum["terrain_levels"]
 
   if play:
     # Disable command curriculum.
-    assert "command_vel" in cfg.curriculum
-    del cfg.curriculum["command_vel"]
+    if "command_vel" in cfg.curriculum:
+      del cfg.curriculum["command_vel"]
 
     twist_cmd = cfg.commands["twist"]
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (-1.5, 2.0)
-    twist_cmd.ranges.ang_vel_z = (-0.7, 0.7)
+    twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
+    twist_cmd.ranges.lin_vel_y = (-1, -1)
+    twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
 
   return cfg

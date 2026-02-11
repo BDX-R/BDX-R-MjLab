@@ -175,6 +175,7 @@ BDXR_ARTICULATION = EntityArticulationInfoCfg(
   actuators=(
     BDXR_ACTUATOR_ROBSTRIDE_03,
     BDXR_ACTUATOR_ROBSTRIDE_02,
+    BDXR_ACTUATOR_ROBSTRIDE_05,
   ),
   soft_joint_pos_limit_factor=0.9,
 )
