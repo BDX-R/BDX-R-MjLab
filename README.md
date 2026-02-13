@@ -74,4 +74,4 @@ make format
 
 ## 🙏 Acknowledgements
 
-We're grateful to the people behind , MuJoCo Warp and Isaac Lab.
+We're grateful to the people behind mjlab, MuJoCo Warp and Isaac Lab.
