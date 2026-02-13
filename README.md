@@ -1,15 +1,15 @@
 https://github.com/user-attachments/assets/d2e4401f-b9c9-431d-b56d-e46ba38cffaa
 
-# BDX-R in MjLab
+# BDX-R in mjlab
 
-This repository showcase the implementation of the BDX-R robot into [MjLab](https://github.com/mujocolab/mjlab). 
+This repository showcase the implementation of the BDX-R robot into [mjlab](https://github.com/mujocolab/mjlab). 
 
 > [!WARNING]
-> As MjLab is still in early development, this repository may be impacted by breaking changes. If an issue were to arise when running one of the scripts, feel free to open an issue or contribute to the project. Thanks you for your understanding!
+> As mjlab is still in early development, this repository may be impacted by breaking changes. If an issue were to arise when running one of the scripts, feel free to open an issue or contribute to the project. Thanks you for your understanding!
 
-## 🤖 What's MjLab?
+## 🤖 What's mjlab?
 
-MjLab is a project to have the [Isaac Lab](https://isaac-sim.github.io/IsaacLab/main/index.html) API using [MjWarp](https://mujoco.readthedocs.io/en/latest/mjwarp/index.html) as the backend. If you’re wondering about the motivation behind it or how it differs from Newton, you can learn more about it [here](https://github.com/mujocolab/mjlab/blob/main/docs/motivation.md).
+mjlab is a project to have the [Isaac Lab](https://isaac-sim.github.io/IsaacLab/main/index.html) API using [MjWarp](https://mujoco.readthedocs.io/en/latest/mjwarp/index.html) as the backend. If you’re wondering about the motivation behind it or how it differs from Newton, you can learn more about it [here](https://github.com/mujocolab/mjlab/blob/main/docs/motivation.md).
 
 ## 🚀 Quickstart
 
@@ -36,8 +36,8 @@ uv run bdx_r_list_envs
 Use the dummy agents.
 
 ```bash
-uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R --agent zero # send zero actions to the robot
-uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R --agent random # send random actions to the robot
+uv run bdx_r_play -Velocity-Flat-BDX-R --agent zero # send zero actions to the robot
+uv run bdx_r_play -Velocity-Flat-BDX-R --agent random # send random actions to the robot
 ```
 
 ### Velocity Tracking
@@ -45,13 +45,13 @@ uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R --agent random # send random actions
 Train the policy.
 
 ```bash
-uv run bdx_r_train Mjlab-Velocity-Flat-BDX-R --env.scene.num-envs 4096
+uv run bdx_r_train -Velocity-Flat-BDX-R --env.scene.num-envs 4096
 ```
 
 Evaluate the policy.
 
 ```bash
-uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Play --wandb-run-path your-org/mjlab/run-id
+uv run bdx_r_play -Velocity-Flat-BDX-R-Play --wandb-run-path your-org//run-id
 ```
 
 ## 🎯 Roadmap
@@ -74,4 +74,4 @@ make format
 
 ## 🙏 Acknowledgements
 
-We're grateful to the people behind MjLab, MuJoCo Warp and Isaac Lab.
+We're grateful to the people behind , MuJoCo Warp and Isaac Lab.
