@@ -1,4 +1,4 @@
-https://github.com/user-attachments/assets/d2e4401f-b9c9-431d-b56d-e46ba38cffaa
+https://github.com/user-attachments/assets/4dccb5a4-6d1d-4171-a6a1-6c7c607a5fab
 
 # BDX-R in mjlab
 
