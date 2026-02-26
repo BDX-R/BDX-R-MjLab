@@ -1,5 +1,6 @@
 """BDX-R velocity environment configurations."""
 
+
 from bdx_r_mjlab.robots import (
   BDXR_ACTION_SCALE,
   get_bdxr_robot_cfg,
@@ -37,14 +38,16 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     del cfg.observations["critic"].terms["height_scan"]
   # ---------------------------------
 
-  site_names = ("left_foot", "right_foot") 
-  geom_names = ("Left_Foot_Pad", "Right_Foot_Pad") 
+  site_names = ("left_foot", "right_foot")
+  geom_names = tuple(
+    f"{side}_foot_collision{i}" for side in ("left", "right") for i in range(1, 8)
+  )
 
   feet_ground_cfg = ContactSensorCfg(
     name="feet_ground_contact",
     primary=ContactMatch(
       mode="subtree",
-      pattern=r"^(left_Left_Foot_Pad|Right_Foot_Pad)$",
+      pattern=r"^(Left_Foot_Pad|Right_Foot_Pad)$",
       entity="robot",
     ),
     secondary=ContactMatch(mode="body", pattern="terrain"),
@@ -86,19 +89,20 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     "asset_cfg"
   ].site_names = site_names
 
+  cfg.events["foot_friction"].params["asset_cfg"].geom_names = geom_names
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_link",)
 
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
     r".*Neck_Pitch.*": 0.1, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
-    r".*_Hip_Pitch.*": 0.3, r".*_Hip_Roll.*": 0.15, r".*_Hip_Yaw.*": 0.15,
-    r".*_Knee.*": 0.35, r".*_Ankle.*": 0.1,
+    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.15, r".*_Hip_Yaw.*": 0.15,
+    r".*_Knee.*": 0.5, r".*_Ankle.*": 0.1,
   }
   cfg.rewards["pose"].params["std_running"] = {
     r".*Neck_Pitch.*": 0.2, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
-    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.2, r".*_Hip_Yaw.*": 0.2,
-    r".*_Knee.*": 0.6, r".*_Ankle.*": 0.2,
+    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.2, r".*_Hip_Yaw.*": 0.2,
+    r".*_Knee.*": 0.8, r".*_Ankle.*": 0.2,
   }
 
   cfg.rewards["upright"].params["asset_cfg"].body_names = ("base_link",)
@@ -109,7 +113,7 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.rewards["body_ang_vel"].weight = -0.05
   cfg.rewards["angular_momentum"].weight = -0.02
-  cfg.rewards["air_time"].weight = 0.0
+  cfg.rewards["air_time"].weight = 0.5
 
   cfg.rewards["self_collisions"] = RewardTermCfg(
     func=mdp.self_collision_cost,
@@ -120,6 +124,9 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   if play:
     cfg.episode_length_s = int(1e9)
     cfg.observations["actor"].enable_corruption = False
+    twist_cmd.ranges.lin_vel_x = (0.4, 1.0)
+    twist_cmd.ranges.lin_vel_y = (0.0, 0.0)
+    twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
     cfg.events.pop("push_robot", None)
     cfg.events["randomize_terrain"] = EventTermCfg(
       func=envs_mdp.randomize_terrain,
@@ -159,7 +166,7 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
     twist_cmd = cfg.commands["twist"]
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (0.4, 0.4)
+    twist_cmd.ranges.lin_vel_x = (0.4, 0.5)
     twist_cmd.ranges.lin_vel_y = (0.0, 0.0)
     twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
 
