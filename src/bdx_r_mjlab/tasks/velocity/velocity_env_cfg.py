@@ -270,8 +270,8 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       weight=0.0,  # Override per-robot.
       params={
         "sensor_name": "feet_ground_contact",
-        "threshold_min": 0.05,
-        "threshold_max": 0.5,
+        "threshold_min": 0.1,
+        "threshold_max": 0.6,
         "command_name": "twist",
         "command_threshold": 0.05,
       },
@@ -280,7 +280,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       func=mdp.feet_clearance,
       weight=-2.0,
       params={
-        "target_height": 0.15,
+        "target_height": 0.06,
         "command_name": "twist",
         "command_threshold": 0.05,
         "asset_cfg": SceneEntityCfg("robot", site_names=()),  # Set per-robot.
@@ -291,7 +291,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       weight=-1,
       params={
         "sensor_name": "feet_ground_contact",
-        "target_height": 0.15,
+        "target_height": 0.06,
         "command_name": "twist",
         "command_threshold": 0.05,
         "asset_cfg": SceneEntityCfg("robot", site_names=()),  # Set per-robot.

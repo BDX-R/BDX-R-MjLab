@@ -96,12 +96,12 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
     r".*Neck_Pitch.*": 0.1, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
-    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.15, r".*_Hip_Yaw.*": 0.15,
+    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.08, r".*_Hip_Yaw.*": 0.15,
     r".*_Knee.*": 0.5, r".*_Ankle.*": 0.1,
   }
   cfg.rewards["pose"].params["std_running"] = {
     r".*Neck_Pitch.*": 0.2, r".*Head_Pitch.*": 0.05, r".*Head_Yaw.*": 0.05, r".*Head_Roll.*": 0.05,
-    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.2, r".*_Hip_Yaw.*": 0.2,
+    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.12, r".*_Hip_Yaw.*": 0.2,
     r".*_Knee.*": 0.8, r".*_Ankle.*": 0.2,
   }
 
@@ -113,7 +113,10 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.rewards["body_ang_vel"].weight = -0.05
   cfg.rewards["angular_momentum"].weight = -0.02
-  cfg.rewards["air_time"].weight = 0.5
+  cfg.rewards["air_time"].weight = 1.5
+
+  cfg.rewards["foot_clearance"].weight = -4.0
+  cfg.rewards["foot_swing_height"].weight = -3.0
 
   cfg.rewards["self_collisions"] = RewardTermCfg(
     func=mdp.self_collision_cost,
@@ -166,8 +169,8 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
     twist_cmd = cfg.commands["twist"]
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
+    twist_cmd.ranges.lin_vel_x = (0.1, 0.1)
     twist_cmd.ranges.lin_vel_y = (0.0, 0.0)
-    twist_cmd.ranges.ang_vel_z = (0.5, 0.5)
+    twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
 
   return cfg
