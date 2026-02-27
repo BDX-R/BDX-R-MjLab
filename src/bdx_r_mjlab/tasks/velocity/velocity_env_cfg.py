@@ -21,7 +21,7 @@ from mjlab.managers.termination_manager import TerminationTermCfg
 from mjlab.scene import SceneCfg
 from mjlab.sensor import GridPatternCfg, ObjRef, RayCastSensorCfg
 from mjlab.sim import MujocoCfg, SimulationCfg
-from mjlab.tasks.velocity import mdp
+from bdx_r_mjlab.tasks.velocity import mdp
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
 from mjlab.terrains import TerrainImporterCfg
 from mjlab.terrains.config import ROUGH_TERRAINS_CFG
@@ -225,12 +225,12 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     "track_linear_velocity": RewardTermCfg(
       func=mdp.track_linear_velocity,
       weight=2.0,
-      params={"command_name": "twist", "std": math.sqrt(0.25)},
+      params={"command_name": "twist", "std": 0.25},
     ),
     "track_angular_velocity": RewardTermCfg(
       func=mdp.track_angular_velocity,
       weight=2.0,
-      params={"command_name": "twist", "std": math.sqrt(0.5)},
+      params={"command_name": "twist", "std": 0.5},
     ),
     "upright": RewardTermCfg(
       func=mdp.flat_orientation,
@@ -273,12 +273,12 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
         "threshold_min": 0.05,
         "threshold_max": 0.5,
         "command_name": "twist",
-        "command_threshold": 0.5,
+        "command_threshold": 0.05,
       },
     ),
     "foot_clearance": RewardTermCfg(
       func=mdp.feet_clearance,
-      weight=-5.0,
+      weight=-2.0,
       params={
         "target_height": 0.15,
         "command_name": "twist",
