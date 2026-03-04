@@ -247,7 +247,7 @@
 
               <!-- JOINT: Left_Hip_Pitch -->
               <body name="Left_Hip_Pitch_Motor" pos="-0.008646 0.07125 0.001341">
-                <joint name="Left_Hip_Pitch" axis="0 1 0" range="-0.698 1.047"/>
+                <joint name="Left_Hip_Pitch" axis="0 -1 0" range="-1.047 0.698"/>
                 <inertial pos="6e-05 0.023752 -2e-05" mass="0.92" fullinertia="0.000918 0.001215 0.00088 -1e-06 -1e-06 -6e-06"/>
                 <geom class="visual" mesh="Left_Hip_Pitch_Motor" pos="0.09375 -0.13375 0.039367"/>
                 
@@ -345,7 +345,7 @@
 
                    <!-- JOINT: Right_Hip_Pitch -->
                    <body name="Right_Hip_Pitch_Motor" pos="-0.008646 -0.07125 0.001341">
-                       <joint name="Right_Hip_Pitch" axis="0 -1 0" range="-1.047 0.698"/>
+                       <joint name="Right_Hip_Pitch" axis="0 1 0" range="-0.698 1.047"/>
                        <inertial pos="6e-05 -0.023752 -2e-05" mass="0.92" fullinertia="0.000918 0.001215 0.00088 1e-06 -1e-06 6e-06"/>
                        <geom class="visual" mesh="Right_Hip_Pitch_Motor" pos="0.09375 0.13375 0.041107"/>
                        
