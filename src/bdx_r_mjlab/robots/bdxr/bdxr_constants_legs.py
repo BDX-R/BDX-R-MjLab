@@ -20,18 +20,18 @@ from mjlab.utils.spec_config import CollisionCfg
 
 BDXR_ROOT = Path(__file__).parent 
 
-BDXR_XML: Path = BDXR_ROOT / "xmls" / "bdxr.xml"
+BDXR_XML_LEGS: Path = BDXR_ROOT / "xmls" / "bdxr_legs.xml"
 
-assert BDXR_XML.exists(), f"XML not found at {BDXR_XML}"
+assert BDXR_XML_LEGS.exists(), f"XML not found at {BDXR_XML_LEGS}"
 
 def get_assets(meshdir: str) -> dict[str, bytes]:
   assets: dict[str, bytes] = {}
-  update_assets(assets, BDXR_XML.parent / "assets", meshdir)
+  update_assets(assets, BDXR_XML_LEGS.parent / "assets", meshdir)
   return assets
 
 
 def get_spec() -> mujoco.MjSpec:
-  spec = mujoco.MjSpec.from_file(str(BDXR_XML))
+  spec = mujoco.MjSpec.from_file(str(BDXR_XML_LEGS))
   spec.assets = get_assets(spec.meshdir)
   return spec
 
@@ -43,7 +43,6 @@ def get_spec() -> mujoco.MjSpec:
 # Motor specs (from Booster T1).
 ARMATURE_ROBSTRIDE_03 = 0.02
 ARMATURE_ROBSTRIDE_02 = 0.0042
-ARMATURE_ROBSTRIDE_05 = 0.0007
 
 ACTUATOR_ROBSTRIDE_03 = ElectricActuator(
   reflected_inertia=ARMATURE_ROBSTRIDE_03,
@@ -55,11 +54,6 @@ ACTUATOR_ROBSTRIDE_02 = ElectricActuator(
   velocity_limit=37.699,
   effort_limit=10.9,
 )
-ACTUATOR_ROBSTRIDE_05 = ElectricActuator(
-  reflected_inertia=ARMATURE_ROBSTRIDE_02,
-  velocity_limit=45,
-  effort_limit=4.2,
-)
 
 
 NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
@@ -67,11 +61,9 @@ DAMPING_RATIO = 2.0
 
 STIFFNESS_ROBSTRIDE_03 = ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ**2
 STIFFNESS_ROBSTRIDE_02 = ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ**2
-STIFFNESS_ROBSTRIDE_05 = ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ**2
 
 DAMPING_ROBSTRIDE_03 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ
 DAMPING_ROBSTRIDE_02 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ
-DAMPING_ROBSTRIDE_05 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ
 
 
 BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
@@ -88,23 +80,11 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
     base_cfg=IdealPdActuatorCfg(
-        target_names_expr=(".*_Ankle", ".*Neck_Pitch"),
+        target_names_expr=(".*_Ankle",),
         stiffness=STIFFNESS_ROBSTRIDE_02,
         damping=DAMPING_ROBSTRIDE_02,
         effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
         armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
-    ),
-    delay_target="position",
-    delay_min_lag=1,
-    delay_max_lag=2,
-)
-BDXR_ACTUATOR_ROBSTRIDE_05 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
-        target_names_expr=(".*Head_Yaw", ".*Head_Pitch", ".*Head_Roll"),
-        stiffness=STIFFNESS_ROBSTRIDE_05,
-        damping=DAMPING_ROBSTRIDE_05,
-        effort_limit=ACTUATOR_ROBSTRIDE_05.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
     ),
     delay_target="position",
     delay_min_lag=1,
@@ -118,10 +98,6 @@ BDXR_ACTUATOR_ROBSTRIDE_05 = DelayedActuatorCfg(
 HOME_KEYFRAME = EntityCfg.InitialStateCfg(
   pos=(0, 0, 0.33),
   joint_pos={
-    ".*Neck_Pitch": 0.0,
-    ".*Head_Yaw": 0.0,
-    ".*Head_Pitch": 0.0,
-    ".*Head_Roll": 0.0,
     ".*_Hip_Yaw": 0.0,
     ".*_Hip_Pitch": 0.0,
     ".*_Hip_Roll": 0.0,
@@ -134,10 +110,6 @@ HOME_KEYFRAME = EntityCfg.InitialStateCfg(
 KNEES_BENT_KEYFRAME = EntityCfg.InitialStateCfg(
   pos=(0, 0, 0.33),
   joint_pos={
-    ".*Neck_Pitch": 0.0,
-    ".*Head_Yaw": 0.0,
-    ".*Head_Pitch": 0.0,
-    ".*Head_Roll": 0.0,
     ".*_Hip_Yaw": 0.0,
     ".*_Hip_Yaw": 0.0,
     ".*_Hip_Pitch": 0.0,
@@ -186,17 +158,16 @@ FEET_ONLY_COLLISION = CollisionCfg(
 # Final config.
 ##
 
-BDXR_ARTICULATION = EntityArticulationInfoCfg(
+BDXR_LEGS_ARTICULATION = EntityArticulationInfoCfg(
   actuators=(
     BDXR_ACTUATOR_ROBSTRIDE_03,
     BDXR_ACTUATOR_ROBSTRIDE_02,
-    BDXR_ACTUATOR_ROBSTRIDE_05,
   ),
   soft_joint_pos_limit_factor=0.9,
 )
 
 
-def get_bdxr_robot_cfg() -> EntityCfg:
+def get_bdxr_robot__legs_cfg() -> EntityCfg:
   """Get a fresh T1 robot configuration instance.
 
   Returns a new EntityCfg instance each time to avoid mutation issues when
@@ -206,13 +177,13 @@ def get_bdxr_robot_cfg() -> EntityCfg:
     init_state=KNEES_BENT_KEYFRAME,
     collisions=(FULL_COLLISION,),
     spec_fn=get_spec,
-    articulation=BDXR_ARTICULATION,
+    articulation=BDXR_LEGS_ARTICULATION,
   )
 
 
-BDXR_ACTION_SCALE: dict[str, float] = {}
+BDXR_ACTION_SCALE_LEGS: dict[str, float] = {}
 
-for a in BDXR_ARTICULATION.actuators:
+for a in BDXR_LEGS_ARTICULATION.actuators:
     assert isinstance(a, DelayedActuatorCfg)
 
     base = a.base_cfg
@@ -224,13 +195,13 @@ for a in BDXR_ARTICULATION.actuators:
     assert e is not None
 
     for n in names:
-        BDXR_ACTION_SCALE[n] = 0.25 * e / s
+        BDXR_ACTION_SCALE_LEGS[n] = 0.25 * e / s
 
 if __name__ == "__main__":
   import mujoco.viewer as viewer
 
   from mjlab.entity.entity import Entity
 
-  robot = Entity(get_bdxr_robot_cfg())
+  robot = Entity(get_bdxr_robot__legs_cfg())
 
   viewer.launch(robot.spec.compile())

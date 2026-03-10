@@ -215,6 +215,28 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
         },
       },
     ),
+    "body_mass": EventTermCfg(
+    mode="startup",
+    func=mdp.randomize_field,
+    domain_randomization=True,
+    params={
+      "asset_cfg": SceneEntityCfg("robot", body_names=()),
+      "field": "body_mass",
+      "operation": "scale",
+      "distribution": "uniform",
+      "ranges": (0.8, 1.2),
+     },
+   ),
+
+    "pd_gains": EventTermCfg(
+      mode="startup",
+      func=mdp.randomize_pd_gains,
+      params={
+        "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
+        "kp_range": (0.8, 1.2),
+        "kd_range": (0.8, 1.2),
+      },
+    ),
   }
 
   ##

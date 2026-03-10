@@ -7,6 +7,11 @@ from .env_cfgs import (
   bdxr_rough_env_cfg,
 )
 
+from .legs_env_cfgs import (
+  bdxr_flat_env_legs_cfg,
+  bdxr_rough_env_legs_cfg,
+)
+
 from .rl_cfg import bdxr_ppo_runner_cfg
 
 register_mjlab_task(
@@ -40,3 +45,39 @@ register_mjlab_task(
     rl_cfg=bdxr_ppo_runner_cfg(),
     runner_cls=VelocityOnPolicyRunner,
 )
+
+
+register_mjlab_task(
+    task_id="Mjlab-Velocity-Rough-BDX-R-Legs",
+    env_cfg=bdxr_rough_env_legs_cfg(),
+    play_env_cfg=bdxr_rough_env_legs_cfg(play=True),
+    rl_cfg=bdxr_ppo_runner_cfg(),
+    runner_cls=VelocityOnPolicyRunner,
+)
+
+register_mjlab_task(
+    task_id="Mjlab-Velocity-Rough-BDX-R-Legs-Play",
+    env_cfg=bdxr_rough_env_legs_cfg(),
+    play_env_cfg=bdxr_rough_env_legs_cfg(play=True),
+    rl_cfg=bdxr_ppo_runner_cfg(),
+    runner_cls=VelocityOnPolicyRunner,
+)
+
+register_mjlab_task(
+    task_id="Mjlab-Velocity-Flat-BDX-R-Legs",
+    env_cfg=bdxr_flat_env_legs_cfg(),
+    play_env_cfg=bdxr_flat_env_legs_cfg(play=True),
+    rl_cfg=bdxr_ppo_runner_cfg(),
+    runner_cls=VelocityOnPolicyRunner,
+)
+
+register_mjlab_task(
+    task_id="Mjlab-Velocity-Flat-BDX-R-Legs-Play",
+    env_cfg=bdxr_flat_env_legs_cfg(),
+    play_env_cfg=bdxr_flat_env_legs_cfg(play=True),
+    rl_cfg=bdxr_ppo_runner_cfg(),
+    runner_cls=VelocityOnPolicyRunner,
+)
+
+
+
