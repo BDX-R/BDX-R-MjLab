@@ -3,7 +3,7 @@
 
 from bdx_r_mjlab.robots import (
   BDXR_ACTION_SCALE_LEGS,
-  get_bdxr_robot__legs_cfg,
+  get_bdxr_robot_legs_cfg,
 )
 from mjlab.envs import ManagerBasedRlEnvCfg
 from mjlab.envs import mdp as envs_mdp
@@ -24,7 +24,7 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.sim.contact_sensor_maxmatch = 500
   cfg.sim.nconmax = 45
 
-  cfg.scene.entities = {"robot": get_bdxr_robot__legs_cfg()}
+  cfg.scene.entities = {"robot": get_bdxr_robot_legs_cfg()}
 
   # --- Raycaster Removal (Rough) ---
   # Remove terrain_scan sensor from the scene
@@ -95,11 +95,11 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
-    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.08, r".*_Hip_Yaw.*": 0.15,
+    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.04, r".*_Hip_Yaw.*": 0.15,
     r".*_Knee.*": 0.5, r".*_Ankle.*": 0.1,
   }
   cfg.rewards["pose"].params["std_running"] = {
-    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.12, r".*_Hip_Yaw.*": 0.2,
+    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.04, r".*_Hip_Yaw.*": 0.2,
     r".*_Knee.*": 0.8, r".*_Ankle.*": 0.5,
   }
 

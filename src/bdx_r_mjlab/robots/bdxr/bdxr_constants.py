@@ -5,7 +5,7 @@ from pathlib import Path
 import mujoco
 
 from mjlab import MJLAB_SRC_PATH
-from mjlab.actuator import BuiltinPositionActuatorCfg, DelayedActuatorCfg, IdealPdActuatorCfg
+from mjlab.actuator import BuiltinPositionActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
@@ -74,41 +74,26 @@ DAMPING_ROBSTRIDE_02 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_02 * NATURAL_FRE
 DAMPING_ROBSTRIDE_05 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ
 
 
-BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
-        target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
-        stiffness=STIFFNESS_ROBSTRIDE_03,
-        damping=DAMPING_ROBSTRIDE_03,
-        effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
-    ),
-    delay_target="position",
-    delay_min_lag=1,
-    delay_max_lag=2,
+BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
+  target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee",),
+  stiffness=STIFFNESS_ROBSTRIDE_03,
+  damping=DAMPING_ROBSTRIDE_03, 
+  effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
+  armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
 )
-BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
-        target_names_expr=(".*_Ankle", ".*Neck_Pitch"),
-        stiffness=STIFFNESS_ROBSTRIDE_02,
-        damping=DAMPING_ROBSTRIDE_02,
-        effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
-    ),
-    delay_target="position",
-    delay_min_lag=1,
-    delay_max_lag=2,
+BDXR_ACTUATOR_ROBSTRIDE_02 = BuiltinPositionActuatorCfg(
+  target_names_expr=(".*_Ankle",".*Neck_Pitch",),
+  stiffness=STIFFNESS_ROBSTRIDE_02,
+  damping=DAMPING_ROBSTRIDE_02,
+  effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
+  armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
 )
-BDXR_ACTUATOR_ROBSTRIDE_05 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
-        target_names_expr=(".*Head_Yaw", ".*Head_Pitch", ".*Head_Roll"),
-        stiffness=STIFFNESS_ROBSTRIDE_05,
-        damping=DAMPING_ROBSTRIDE_05,
-        effort_limit=ACTUATOR_ROBSTRIDE_05.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
-    ),
-    delay_target="position",
-    delay_min_lag=1,
-    delay_max_lag=2,
+BDXR_ACTUATOR_ROBSTRIDE_05 = BuiltinPositionActuatorCfg(
+  target_names_expr=(".*Head_Yaw",".*Head_Pitch",".*Head_Roll",),
+  stiffness=STIFFNESS_ROBSTRIDE_05,
+  damping=DAMPING_ROBSTRIDE_05,
+  effort_limit=ACTUATOR_ROBSTRIDE_05.effort_limit,
+  armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
 )
 
 ##
@@ -211,20 +196,15 @@ def get_bdxr_robot_cfg() -> EntityCfg:
 
 
 BDXR_ACTION_SCALE: dict[str, float] = {}
-
 for a in BDXR_ARTICULATION.actuators:
-    assert isinstance(a, DelayedActuatorCfg)
+  assert isinstance(a, BuiltinPositionActuatorCfg)
+  e = a.effort_limit
+  s = a.stiffness
+  names = a.target_names_expr
+  assert e is not None
+  for n in names:
+    BDXR_ACTION_SCALE[n] = 0.25 * e / s
 
-    base = a.base_cfg
-
-    e = base.effort_limit
-    s = base.stiffness
-    names = base.target_names_expr
-
-    assert e is not None
-
-    for n in names:
-        BDXR_ACTION_SCALE[n] = 0.25 * e / s
 
 if __name__ == "__main__":
   import mujoco.viewer as viewer

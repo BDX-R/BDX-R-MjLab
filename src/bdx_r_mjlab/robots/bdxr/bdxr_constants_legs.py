@@ -5,7 +5,7 @@ from pathlib import Path
 import mujoco
 
 from mjlab import MJLAB_SRC_PATH
-from mjlab.actuator import BuiltinPositionActuatorCfg, DelayedActuatorCfg, IdealPdActuatorCfg
+from mjlab.actuator import DelayedActuatorCfg, BuiltinPositionActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
@@ -67,7 +67,7 @@ DAMPING_ROBSTRIDE_02 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_02 * NATURAL_FRE
 
 
 BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
+    base_cfg=BuiltinPositionActuatorCfg(
         target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
         stiffness=STIFFNESS_ROBSTRIDE_03,
         damping=DAMPING_ROBSTRIDE_03,
@@ -75,11 +75,11 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=1,
+    delay_min_lag=0,
     delay_max_lag=2,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
-    base_cfg=IdealPdActuatorCfg(
+    base_cfg=BuiltinPositionActuatorCfg(
         target_names_expr=(".*_Ankle",),
         stiffness=STIFFNESS_ROBSTRIDE_02,
         damping=DAMPING_ROBSTRIDE_02,
@@ -87,7 +87,7 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=1,
+    delay_min_lag=0,
     delay_max_lag=2,
 )
 
@@ -167,7 +167,7 @@ BDXR_LEGS_ARTICULATION = EntityArticulationInfoCfg(
 )
 
 
-def get_bdxr_robot__legs_cfg() -> EntityCfg:
+def get_bdxr_robot_legs_cfg() -> EntityCfg:
   """Get a fresh T1 robot configuration instance.
 
   Returns a new EntityCfg instance each time to avoid mutation issues when
@@ -182,16 +182,15 @@ def get_bdxr_robot__legs_cfg() -> EntityCfg:
 
 
 BDXR_ACTION_SCALE_LEGS: dict[str, float] = {}
-
 for a in BDXR_LEGS_ARTICULATION.actuators:
-    assert isinstance(a, DelayedActuatorCfg)
+    if isinstance(a, DelayedActuatorCfg):
+        a = a.base_cfg
 
-    base = a.base_cfg
+    assert isinstance(a, BuiltinPositionActuatorCfg)
 
-    e = base.effort_limit
-    s = base.stiffness
-    names = base.target_names_expr
-
+    e = a.effort_limit
+    s = a.stiffness
+    names = a.target_names_expr
     assert e is not None
 
     for n in names:
@@ -202,6 +201,6 @@ if __name__ == "__main__":
 
   from mjlab.entity.entity import Entity
 
-  robot = Entity(get_bdxr_robot__legs_cfg())
+  robot = Entity(get_bdxr_robot_legs_cfg())
 
   viewer.launch(robot.spec.compile())
