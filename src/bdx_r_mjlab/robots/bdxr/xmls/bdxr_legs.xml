@@ -295,13 +295,13 @@
  <inertial pos="-0.0795 0.007701 -0.014067" mass="0.08" fullinertia="0.000118 0.001881 0.001957 0 0 0"/>
  <geom class="visual" mesh="Left_Foot_Pad" material="silver" pos="0.021227 -0.102728 0.304692"/>
  <!-- Collision capsules covering the foot pad sole -->
- <geom class="collision" name="left_foot_collision1" size="0.01" fromto="-0.152 -0.006 -0.013 -0.007 -0.006 -0.013"/>
- <geom class="collision" name="left_foot_collision2" size="0.01" fromto="-0.147 -0.002 -0.013 -0.012 -0.002 -0.013"/>
- <geom class="collision" name="left_foot_collision3" size="0.01" fromto="-0.142 0.002 -0.013 -0.017 0.002 -0.013"/>
- <geom class="collision" name="left_foot_collision4" size="0.01" fromto="-0.142 0.006 -0.013 -0.017 0.006 -0.013"/>
- <geom class="collision" name="left_foot_collision5" size="0.01" fromto="-0.142 0.01 -0.013 -0.017 0.01 -0.013"/>
- <geom class="collision" name="left_foot_collision6" size="0.01" fromto="-0.147 0.014 -0.013 -0.012 0.014 -0.013"/>
- <geom class="collision" name="left_foot_collision7" size="0.01" fromto="-0.152 0.018 -0.013 -0.007 0.018 -0.013"/>
+ <geom class="collision" name="left_foot_collision1" size="0.005" fromto="-0.152 -0.006 -0.02 -0.007 -0.006 -0.02"/>
+ <geom class="collision" name="left_foot_collision2" size="0.005" fromto="-0.147 -0.002 -0.02 -0.012 -0.002 -0.02"/>
+ <geom class="collision" name="left_foot_collision3" size="0.005" fromto="-0.142 0.002 -0.02 -0.017 0.002 -0.02"/>
+ <geom class="collision" name="left_foot_collision4" size="0.005" fromto="-0.142 0.006 -0.02 -0.017 0.006 -0.02"/>
+ <geom class="collision" name="left_foot_collision5" size="0.005" fromto="-0.142 0.01 -0.02 -0.017 0.01 -0.02"/>
+ <geom class="collision" name="left_foot_collision6" size="0.005" fromto="-0.147 0.014 -0.02 -0.012 0.014 -0.02"/>
+ <geom class="collision" name="left_foot_collision7" size="0.005" fromto="-0.152 0.018 -0.02 -0.007 0.018 -0.02"/>
  </body>
  <body name="Left_Foot_Cover" pos="0.102636 0.0135 -0.048903">
  <inertial pos="-0.053452 -0.014306 0.021311" mass="0.02" fullinertia="0.000477 0.000977 0.000856 0.000178 6.1e-05 3.8e-05"/>
@@ -393,13 +393,13 @@
  <inertial pos="-0.0795 0 -0.012327" mass="0.08" fullinertia="0.000118 0.001881 0.001957 0 0 0"/>
  <geom class="visual" mesh="Right_Foot_Pad" material="silver" pos="0.021227 0.110385 0.308172"/>
  <!-- Collision capsules covering the foot pad sole -->
- <geom class="collision" name="right_foot_collision1" size="0.01" fromto="-0.152 0.014 -0.012 -0.007 0.014 -0.012"/>
- <geom class="collision" name="right_foot_collision2" size="0.01" fromto="-0.147 0.01 -0.012 -0.012 0.01 -0.012"/>
- <geom class="collision" name="right_foot_collision3" size="0.01" fromto="-0.142 0.006 -0.012 -0.017 0.006 -0.012"/>
- <geom class="collision" name="right_foot_collision4" size="0.01" fromto="-0.142 0.002 -0.012 -0.017 0.002 -0.012"/>
- <geom class="collision" name="right_foot_collision5" size="0.01" fromto="-0.142 -0.002 -0.012 -0.017 -0.002 -0.012"/>
- <geom class="collision" name="right_foot_collision6" size="0.01" fromto="-0.147 -0.006 -0.012 -0.012 -0.006 -0.012"/>
- <geom class="collision" name="right_foot_collision7" size="0.01" fromto="-0.152 -0.01 -0.012 -0.007 -0.01 -0.012"/>
+ <geom class="collision" name="right_foot_collision1" size="0.005" fromto="-0.152 0.014 -0.02 -0.007 0.014 -0.02"/>
+ <geom class="collision" name="right_foot_collision2" size="0.005" fromto="-0.147 0.01 -0.02 -0.012 0.01 -0.02"/>
+ <geom class="collision" name="right_foot_collision3" size="0.005" fromto="-0.142 0.006 -0.02 -0.017 0.006 -0.02"/>
+ <geom class="collision" name="right_foot_collision4" size="0.005" fromto="-0.142 0.002 -0.02 -0.017 0.002 -0.02"/>
+ <geom class="collision" name="right_foot_collision5" size="0.005" fromto="-0.142 -0.002 -0.02 -0.017 -0.002 -0.02"/>
+ <geom class="collision" name="right_foot_collision6" size="0.005" fromto="-0.147 -0.006 -0.02 -0.012 -0.006 -0.02"/>
+ <geom class="collision" name="right_foot_collision7" size="0.005" fromto="-0.152 -0.01 -0.02 -0.007 -0.01 -0.02"/>
  </body>
  <body name="Right_Foot_Cover" pos="-0.041752 -0.0135 -0.042544">
  <inertial pos="0.09107 0.014411 0.015231" mass="0.02" fullinertia="0.000512 0.001003 0.000864 -0.000182 5.3e-05 -4.9e-05"/>
