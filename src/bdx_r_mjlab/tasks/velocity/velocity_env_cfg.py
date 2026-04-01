@@ -44,15 +44,15 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "projected_gravity": ObservationTermCfg(
       func=mdp.projected_gravity,
-      noise=Unoise(n_min=-0.1, n_max=0.1),
+      noise=Unoise(n_min=-0.05, n_max=0.05),
     ),
     "joint_pos": ObservationTermCfg(
       func=mdp.joint_pos_rel,
-      noise=Unoise(n_min=-0.03, n_max=0.03),
+      noise=Unoise(n_min=-0.01, n_max=0.01),
     ),
     "joint_vel": ObservationTermCfg(
       func=mdp.joint_vel_rel,
-      noise=Unoise(n_min=-2.5, n_max=2.5),
+      noise=Unoise(n_min=-1.5, n_max=1.5),
     ),
     "actions": ObservationTermCfg(func=mdp.last_action),
     "command": ObservationTermCfg(
@@ -224,29 +224,16 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       "field": "body_mass",
       "operation": "scale",
       "distribution": "uniform",
-      "ranges": (0.5, 1.5),
+      "ranges": (0.8, 1.2),
      },
    ),
-
     "pd_gains": EventTermCfg(
       mode="startup",
       func=mdp.randomize_pd_gains,
       params={
         "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
-        "kp_range": (0.7, 1.3),
-        "kd_range": (0.7, 1.3),
-      },
-    ),
-    "armature": EventTermCfg(
-      mode="startup",
-      func=mdp.randomize_field,
-      domain_randomization=True,
-      params={
-        "asset_cfg": SceneEntityCfg("robot", joint_names=(".*",)),
-        "field": "dof_armature",
-        "operation": "scale",
-        "distribution": "uniform",
-        "ranges": (0.7, 1.3),
+        "kp_range": (0.8, 1.2),
+        "kd_range": (0.8, 1.2),
       },
     ),
   }

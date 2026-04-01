@@ -5,7 +5,7 @@ from pathlib import Path
 import mujoco
 
 from mjlab import MJLAB_SRC_PATH
-from mjlab.actuator import DelayedActuatorCfg, BuiltinPositionActuatorCfg
+from mjlab.actuator import BuiltinPositionActuatorCfg, DelayedActuatorCfg, IdealPdActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
@@ -75,7 +75,7 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=0,
+    delay_min_lag=1,
     delay_max_lag=2,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
@@ -87,7 +87,7 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=0,
+    delay_min_lag=1,
     delay_max_lag=2,
 )
 
@@ -182,15 +182,16 @@ def get_bdxr_robot_legs_cfg() -> EntityCfg:
 
 
 BDXR_ACTION_SCALE_LEGS: dict[str, float] = {}
+
 for a in BDXR_LEGS_ARTICULATION.actuators:
-    if isinstance(a, DelayedActuatorCfg):
-        a = a.base_cfg
+    assert isinstance(a, DelayedActuatorCfg)
 
-    assert isinstance(a, BuiltinPositionActuatorCfg)
+    base = a.base_cfg
 
-    e = a.effort_limit
-    s = a.stiffness
-    names = a.target_names_expr
+    e = base.effort_limit
+    s = base.stiffness
+    names = base.target_names_expr
+
     assert e is not None
 
     for n in names:
