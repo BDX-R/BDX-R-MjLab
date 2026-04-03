@@ -209,9 +209,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
         "operation": "add",
         "field": "body_ipos",
         "ranges": {
-          0: (-0.025, 0.025),
-          1: (-0.04, 0.04),
-          2: (-0.06, 0.06),
+          0: (-0.03, 0.03),
+          1: (-0.05, 0.05),
+          2: (-0.07, 0.07),
         },
       },
     ),
@@ -224,7 +224,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       "field": "body_mass",
       "operation": "scale",
       "distribution": "uniform",
-      "ranges": (0.8, 1.2),
+      "ranges": (0.8, 1.3),
      },
    ),
     "pd_gains": EventTermCfg(
@@ -255,9 +255,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "upright": RewardTermCfg(
       func=mdp.flat_orientation,
-      weight=1.0,
+      weight=1.5,
       params={
-        "std": math.sqrt(0.2),
+        "std": math.sqrt(0.1),
         "asset_cfg": SceneEntityCfg("robot", body_names=()),  # Set per-robot.
       },
     ),
@@ -330,7 +330,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "soft_landing": RewardTermCfg(
       func=mdp.soft_landing,
-      weight=-1e-5,
+      weight=-2e-5,
       params={
         "sensor_name": "feet_ground_contact",
         "command_name": "twist",
