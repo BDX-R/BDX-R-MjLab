@@ -107,6 +107,16 @@ def body_angular_velocity_penalty(
   return torch.sum(torch.square(ang_vel_xy), dim=1)
 
 
+def body_lateral_velocity_penalty(
+  env: ManagerBasedRlEnv,
+  asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
+) -> torch.Tensor:
+  """Penalize side-to-side base motion in the robot body frame."""
+  asset: Entity = env.scene[asset_cfg.name]
+  del asset_cfg
+  return torch.square(asset.data.root_link_lin_vel_b[:, 1])
+
+
 def angular_momentum_penalty(
   env: ManagerBasedRlEnv,
   sensor_name: str,

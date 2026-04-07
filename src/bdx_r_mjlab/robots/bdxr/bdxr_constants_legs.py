@@ -76,7 +76,7 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
     ),
     delay_target="position",
     delay_min_lag=1,
-    delay_max_lag=2,
+    delay_max_lag=3,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
     base_cfg=BuiltinPositionActuatorCfg(
@@ -88,7 +88,7 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
     ),
     delay_target="position",
     delay_min_lag=1,
-    delay_max_lag=2,
+    delay_max_lag=3,
 )
 
 ##

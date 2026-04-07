@@ -232,8 +232,8 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       func=mdp.randomize_pd_gains,
       params={
         "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
-        "kp_range": (0.8, 1.2),
-        "kd_range": (0.8, 1.2),
+        "kp_range": (0.7, 1.3),
+        "kd_range": (0.7, 1.3),
       },
     ),
   }
