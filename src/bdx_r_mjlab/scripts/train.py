@@ -172,6 +172,10 @@ def run_train(task_id: str, cfg: TrainConfig, log_dir: Path) -> None:
     num_learning_iterations=cfg.agent.max_iterations, init_at_random_ep_len=True
   )
 
+  if rank == 0:
+    runner.export_policy_to_onnx(str(log_dir))
+    print(f"[INFO] ONNX policy exported → {log_dir}/policy.onnx")
+
   env.close()
 
 
@@ -229,6 +233,7 @@ def main():
   # Parse first argument to choose the task.
   # Import tasks to populate the registry.
   import mjlab.tasks  # noqa: F401
+  import bdx_r_mjlab.tasks  # noqa: F401
 
   all_tasks = list_tasks()
   chosen_task, remaining_args = tyro.cli(

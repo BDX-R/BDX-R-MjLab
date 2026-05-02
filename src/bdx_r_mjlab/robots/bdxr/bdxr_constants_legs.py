@@ -40,9 +40,17 @@ def get_spec() -> mujoco.MjSpec:
 # Actuator config.
 ##
 
-# Motor specs (from Booster T1).
-ARMATURE_ROBSTRIDE_03 = 0.02
-ARMATURE_ROBSTRIDE_02 = 0.0042
+# Armature values from chirp system identification.
+ARMATURE_ROBSTRIDE_03 = 0.06    # chirp ID tuned (was 0.02)
+ARMATURE_ROBSTRIDE_02 = 0.0142  # chirp ID tuned (was 0.0042)
+
+# KP/KD hardcoded to match real robot MIT control law.
+# These are decoupled from armature — previously they were derived via
+# KP = armature * (10*2π)², but that formula used the wrong armature values.
+KP_ROBSTRIDE_03 = 78.957
+KD_ROBSTRIDE_03 = 5.027
+KP_ROBSTRIDE_02 = 16.581
+KD_ROBSTRIDE_02 = 1.056
 
 ACTUATOR_ROBSTRIDE_03 = ElectricActuator(
   reflected_inertia=ARMATURE_ROBSTRIDE_03,
@@ -56,38 +64,28 @@ ACTUATOR_ROBSTRIDE_02 = ElectricActuator(
 )
 
 
-NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
-DAMPING_RATIO = 2.0
-
-STIFFNESS_ROBSTRIDE_03 = ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ**2
-STIFFNESS_ROBSTRIDE_02 = ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ**2
-
-DAMPING_ROBSTRIDE_03 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ
-DAMPING_ROBSTRIDE_02 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ
-
-
 BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
     base_cfg=BuiltinPositionActuatorCfg(
         target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
-        stiffness=STIFFNESS_ROBSTRIDE_03,
-        damping=DAMPING_ROBSTRIDE_03,
+        stiffness=KP_ROBSTRIDE_03,
+        damping=KD_ROBSTRIDE_03,
         effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
         armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=1,
+    delay_min_lag=3,
     delay_max_lag=3,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
     base_cfg=BuiltinPositionActuatorCfg(
         target_names_expr=(".*_Ankle",),
-        stiffness=STIFFNESS_ROBSTRIDE_02,
-        damping=DAMPING_ROBSTRIDE_02,
+        stiffness=KP_ROBSTRIDE_02,
+        damping=KD_ROBSTRIDE_02,
         effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
         armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=1,
+    delay_min_lag=3,
     delay_max_lag=3,
 )
 

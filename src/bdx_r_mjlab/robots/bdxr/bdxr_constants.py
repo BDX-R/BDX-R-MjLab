@@ -5,7 +5,7 @@ from pathlib import Path
 import mujoco
 
 from mjlab import MJLAB_SRC_PATH
-from mjlab.actuator import BuiltinPositionActuatorCfg
+from mjlab.actuator import BuiltinPositionActuatorCfg, DelayedActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
@@ -40,10 +40,22 @@ def get_spec() -> mujoco.MjSpec:
 # Actuator config.
 ##
 
-# Motor specs (from Booster T1).
-ARMATURE_ROBSTRIDE_03 = 0.02
-ARMATURE_ROBSTRIDE_02 = 0.0042
-ARMATURE_ROBSTRIDE_05 = 0.0007
+# Armature values from chirp system identification (same as legs).
+ARMATURE_ROBSTRIDE_03 = 0.06    # chirp ID tuned
+ARMATURE_ROBSTRIDE_02 = 0.0142  # chirp ID tuned
+ARMATURE_ROBSTRIDE_05 = 0.0007  # TODO: run chirp ID for head motors
+
+# KP/KD from chirp ID for RS03 and RS02 (same as legs).
+# RS05 still uses the formula-based values until chirp ID is done.
+KP_ROBSTRIDE_03 = 78.957
+KD_ROBSTRIDE_03 = 5.027
+KP_ROBSTRIDE_02 = 16.581
+KD_ROBSTRIDE_02 = 1.056
+
+NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
+DAMPING_RATIO = 2.0
+KP_ROBSTRIDE_05 = ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ**2
+KD_ROBSTRIDE_05 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ
 
 ACTUATOR_ROBSTRIDE_03 = ElectricActuator(
   reflected_inertia=ARMATURE_ROBSTRIDE_03,
@@ -56,44 +68,46 @@ ACTUATOR_ROBSTRIDE_02 = ElectricActuator(
   effort_limit=10.9,
 )
 ACTUATOR_ROBSTRIDE_05 = ElectricActuator(
-  reflected_inertia=ARMATURE_ROBSTRIDE_02,
+  reflected_inertia=ARMATURE_ROBSTRIDE_05,
   velocity_limit=45,
   effort_limit=4.2,
 )
 
-
-NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
-DAMPING_RATIO = 2.0
-
-STIFFNESS_ROBSTRIDE_03 = ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ**2
-STIFFNESS_ROBSTRIDE_02 = ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ**2
-STIFFNESS_ROBSTRIDE_05 = ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ**2
-
-DAMPING_ROBSTRIDE_03 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_03 * NATURAL_FREQ
-DAMPING_ROBSTRIDE_02 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_02 * NATURAL_FREQ
-DAMPING_ROBSTRIDE_05 = 2.0 * DAMPING_RATIO * ARMATURE_ROBSTRIDE_05 * NATURAL_FREQ
-
-
-BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
-  target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee",),
-  stiffness=STIFFNESS_ROBSTRIDE_03,
-  damping=DAMPING_ROBSTRIDE_03, 
-  effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
-  armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
+BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
+  base_cfg=BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
+    stiffness=KP_ROBSTRIDE_03,
+    damping=KD_ROBSTRIDE_03,
+    effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
+  ),
+  delay_target="position",
+  delay_min_lag=3,
+  delay_max_lag=3,
 )
-BDXR_ACTUATOR_ROBSTRIDE_02 = BuiltinPositionActuatorCfg(
-  target_names_expr=(".*_Ankle",".*Neck_Pitch",),
-  stiffness=STIFFNESS_ROBSTRIDE_02,
-  damping=DAMPING_ROBSTRIDE_02,
-  effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
-  armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
+BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
+  base_cfg=BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Ankle", ".*Neck_Pitch"),
+    stiffness=KP_ROBSTRIDE_02,
+    damping=KD_ROBSTRIDE_02,
+    effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
+  ),
+  delay_target="position",
+  delay_min_lag=3,
+  delay_max_lag=3,
 )
-BDXR_ACTUATOR_ROBSTRIDE_05 = BuiltinPositionActuatorCfg(
-  target_names_expr=(".*Head_Yaw",".*Head_Pitch",".*Head_Roll",),
-  stiffness=STIFFNESS_ROBSTRIDE_05,
-  damping=DAMPING_ROBSTRIDE_05,
-  effort_limit=ACTUATOR_ROBSTRIDE_05.effort_limit,
-  armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
+BDXR_ACTUATOR_ROBSTRIDE_05 = DelayedActuatorCfg(
+  base_cfg=BuiltinPositionActuatorCfg(
+    target_names_expr=(".*Head_Yaw", ".*Head_Pitch", ".*Head_Roll"),
+    stiffness=KP_ROBSTRIDE_05,
+    damping=KD_ROBSTRIDE_05,
+    effort_limit=ACTUATOR_ROBSTRIDE_05.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_05.reflected_inertia,
+  ),
+  delay_target="position",
+  delay_min_lag=3,
+  delay_max_lag=3,
 )
 
 ##
@@ -197,10 +211,11 @@ def get_bdxr_robot_cfg() -> EntityCfg:
 
 BDXR_ACTION_SCALE: dict[str, float] = {}
 for a in BDXR_ARTICULATION.actuators:
-  assert isinstance(a, BuiltinPositionActuatorCfg)
-  e = a.effort_limit
-  s = a.stiffness
-  names = a.target_names_expr
+  assert isinstance(a, DelayedActuatorCfg)
+  base = a.base_cfg
+  e = base.effort_limit
+  s = base.stiffness
+  names = base.target_names_expr
   assert e is not None
   for n in names:
     BDXR_ACTION_SCALE[n] = 0.25 * e / s

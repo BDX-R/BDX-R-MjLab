@@ -155,7 +155,7 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.scene.terrain.terrain_type = "plane"
   cfg.scene.terrain.terrain_generator = None
 
-  # NOTE: Raycaster removal lines were removed from here because 
+  # NOTE: Raycaster removal lines were removed from here because
   # they are now handled inside bdxr_rough_env_cfg.
 
   # Disable terrain curriculum.
@@ -172,5 +172,35 @@ def bdxr_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     twist_cmd.ranges.lin_vel_x = (0.2, 0.2)
     twist_cmd.ranges.lin_vel_y = (0, 0.0)
     twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
+
+  return cfg
+
+
+def bdxr_standing_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
+  """Create BDX-R standing-only configuration.
+
+  Reuses the entire working velocity task stack but locks the command to
+  zero velocity.  With command=(0,0,0):
+    - track_linear_velocity  →  penalise any base movement (stay still)
+    - track_angular_velocity →  penalise any rotation    (stay still)
+    - upright + pose         →  hold default pose upright
+
+  Use this to produce a standing checkpoint that can be used as the
+  starting point for animation tracking training.
+  """
+  cfg = bdxr_flat_env_cfg(play=play)
+
+  twist_cmd = cfg.commands["twist"]
+  assert isinstance(twist_cmd, UniformVelocityCommandCfg)
+  twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
+  twist_cmd.ranges.lin_vel_y = (0.0, 0.0)
+  twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
+  twist_cmd.ranges.heading = None  # Must be None (not (0,0)) when heading_command=False
+  twist_cmd.heading_command = False
+  twist_cmd.rel_standing_envs = 1.0  # 100% standing envs
+
+  # Disable velocity curriculum — command is always zero.
+  if "command_vel" in cfg.curriculum:
+    del cfg.curriculum["command_vel"]
 
   return cfg

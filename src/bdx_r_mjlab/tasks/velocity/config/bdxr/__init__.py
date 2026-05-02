@@ -5,6 +5,7 @@ from mjlab.tasks.velocity.rl import VelocityOnPolicyRunner
 from .env_cfgs import (
   bdxr_flat_env_cfg,
   bdxr_rough_env_cfg,
+  bdxr_standing_env_cfg,
 )
 
 from .legs_env_cfgs import (
@@ -75,6 +76,14 @@ register_mjlab_task(
     task_id="Mjlab-Velocity-Flat-BDX-R-Legs-Play",
     env_cfg=bdxr_flat_env_legs_cfg(),
     play_env_cfg=bdxr_flat_env_legs_cfg(play=True),
+    rl_cfg=bdxr_ppo_runner_cfg(),
+    runner_cls=VelocityOnPolicyRunner,
+)
+
+register_mjlab_task(
+    task_id="Mjlab-Standing-BDX-R",
+    env_cfg=bdxr_standing_env_cfg(),
+    play_env_cfg=bdxr_standing_env_cfg(play=True),
     rl_cfg=bdxr_ppo_runner_cfg(),
     runner_cls=VelocityOnPolicyRunner,
 )
