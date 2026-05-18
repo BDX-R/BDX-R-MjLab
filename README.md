@@ -23,14 +23,6 @@ Clone the repository.
 git clone https://github.com/BDX-R/BDX-R-MjLab.git && cd BDX-R-MjLab
 ```
 
-Get the robot description.
-
-```bash
-curl -L -o bdx_r_description.tar.gz https://github.com/KaydenKnapik/BDX-R-Description/archive/refs/heads/main.tar.gz
-tar -xzf bdx_r_description.tar.gz -C src/bdx_r_mjlab/robots/bdx_r/
-rm bdx_r_description.tar.gz
-```
-
 List available environments.
 
 ```bash
@@ -40,8 +32,8 @@ uv run bdx_r_list_envs
 Use the dummy agents.
 
 ```bash
-uv run bdx_r_play -Velocity-Flat-BDX-R --agent zero # send zero actions to the robot
-uv run bdx_r_play -Velocity-Flat-BDX-R --agent random # send random actions to the robot
+uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs --agent zero # send zero actions to the robot
+uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs --agent random # send random actions to the robot
 ```
 
 ### Velocity Tracking
@@ -49,13 +41,13 @@ uv run bdx_r_play -Velocity-Flat-BDX-R --agent random # send random actions to t
 Train the policy.
 
 ```bash
-uv run bdx_r_train -Velocity-Flat-BDX-R --env.scene.num-envs 4096
+uv run bdx_r_train Mjlab-Velocity-Flat-BDX-R-Legs --env.scene.num-envs 4096
 ```
 
 Evaluate the policy.
 
 ```bash
-uv run bdx_r_play -Velocity-Flat-BDX-R-Play --wandb-run-path your-org//run-id
+uv run bdx_r_play Mjlab-Velocity-Flat-BDX-R-Legs-Play --wandb-run-path your-org//run-id
 ```
 
 ## 🎯 Roadmap
