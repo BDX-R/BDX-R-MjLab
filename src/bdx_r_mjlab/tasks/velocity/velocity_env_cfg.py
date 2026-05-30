@@ -209,9 +209,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
         "operation": "add",
         "field": "body_ipos",
         "ranges": {
-          0: (-0.03, 0.03),
-          1: (-0.05, 0.05),
-          2: (-0.07, 0.07),
+          0: (-0.02, 0.02),
+          1: (-0.04, 0.04),
+          2: (-0.06, 0.06),
         },
       },
     ),
@@ -224,16 +224,16 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       "field": "body_mass",
       "operation": "scale",
       "distribution": "uniform",
-      "ranges": (0.8, 1.3),
+      "ranges": (0.8, 1.2),
      },
-   ),
+    ),
     "pd_gains": EventTermCfg(
       mode="startup",
       func=mdp.randomize_pd_gains,
       params={
         "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
-        "kp_range": (0.7, 1.3),
-        "kd_range": (0.7, 1.3),
+        "kp_range": (0.8, 1.2),
+        "kd_range": (0.8, 1.2),
       },
     ),
   }
@@ -246,12 +246,12 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     "track_linear_velocity": RewardTermCfg(
       func=mdp.track_linear_velocity,
       weight=2.0,
-      params={"command_name": "twist", "std": 0.25},
+      params={"command_name": "twist", "std": 0.15},
     ),
     "track_angular_velocity": RewardTermCfg(
       func=mdp.track_angular_velocity,
       weight=2.0,
-      params={"command_name": "twist", "std": 0.5},
+      params={"command_name": "twist", "std": 0.3},
     ),
     "upright": RewardTermCfg(
       func=mdp.flat_orientation,
@@ -348,6 +348,10 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     "fell_over": TerminationTermCfg(
       func=mdp.bad_orientation,
       params={"limit_angle": math.radians(70.0)},
+    ),
+    "base_too_low": TerminationTermCfg(
+      func=mdp.root_height_below_minimum,
+      params={"minimum_height": 0.12},
     ),
   }
 

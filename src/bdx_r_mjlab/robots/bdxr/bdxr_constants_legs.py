@@ -73,8 +73,8 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=3,
-    delay_max_lag=3,
+    delay_min_lag=2,
+    delay_max_lag=4,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
     base_cfg=BuiltinPositionActuatorCfg(
@@ -85,8 +85,8 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
         armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
     ),
     delay_target="position",
-    delay_min_lag=3,
-    delay_max_lag=3,
+    delay_min_lag=2,
+    delay_max_lag=4,
 )
 
 ##
@@ -94,7 +94,7 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
 ##
 
 HOME_KEYFRAME = EntityCfg.InitialStateCfg(
-  pos=(0, 0, 0.33),
+  pos=(0, 0, 0.25),
   joint_pos={
     ".*_Hip_Yaw": 0.0,
     ".*_Hip_Pitch": 0.0,
@@ -106,7 +106,7 @@ HOME_KEYFRAME = EntityCfg.InitialStateCfg(
 )
 
 KNEES_BENT_KEYFRAME = EntityCfg.InitialStateCfg(
-  pos=(0, 0, 0.33),
+  pos=(0, 0, 0.25),
   joint_pos={
     ".*_Hip_Yaw": 0.0,
     ".*_Hip_Yaw": 0.0,
