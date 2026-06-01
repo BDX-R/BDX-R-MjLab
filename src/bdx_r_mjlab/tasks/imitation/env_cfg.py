@@ -16,7 +16,7 @@ from bdx_r_mjlab.tasks.velocity.config.bdxr.env_cfgs import bdxr_flat_env_cfg
 from bdx_r_mjlab.tasks.imitation import mdp
 from bdx_r_mjlab.tasks.imitation.imitation_command import ImitationCommandCfg
 
-_DEFAULT_PKL = str(Path(__file__).parents[5] / "data" / "polynomial_coefficients.pkl")
+_DEFAULT_PKL = str(Path(__file__).parents[4] / "data" / "polynomial_coefficients.pkl")
 
 
 def bdxr_imitation_env_cfg(

@@ -17,7 +17,7 @@ from bdx_r_mjlab.tasks.velocity.config.bdxr.legs_env_cfgs import bdxr_flat_env_l
 from bdx_r_mjlab.tasks.imitation_legs import mdp
 from bdx_r_mjlab.tasks.imitation_legs.imitation_command_legs import ImitationCommandLegsCfg
 
-_DEFAULT_PKL = str(Path(__file__).parents[5] / "data" / "polynomial_coefficients_legs.pkl")
+_DEFAULT_PKL = str(Path(__file__).parents[4] / "data" / "polynomial_coefficients_legs.pkl")
 
 
 def bdxr_imitation_legs_env_cfg(
