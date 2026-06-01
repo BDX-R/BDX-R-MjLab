@@ -23,7 +23,7 @@ from mjlab.sensor import GridPatternCfg, ObjRef, RayCastSensorCfg
 from mjlab.sim import MujocoCfg, SimulationCfg
 from bdx_r_mjlab.tasks.velocity import mdp
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
-from mjlab.terrains import TerrainImporterCfg
+from mjlab.terrains import TerrainEntityCfg
 from mjlab.terrains.config import ROUGH_TERRAINS_CFG
 from mjlab.utils.noise import UniformNoiseCfg as Unoise
 from mjlab.viewer import ViewerConfig
@@ -182,19 +182,17 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "foot_friction": EventTermCfg(
       mode="startup",
-      func=mdp.randomize_field,
-      domain_randomization=True,
+      func=envs_mdp.dr.geom_friction,
       params={
         "asset_cfg": SceneEntityCfg("robot", geom_names=()),  # Set per-robot.
         "operation": "abs",
-        "field": "geom_friction",
         "ranges": (0.3, 1.2),
-        "shared_random": True,  # All foot geoms share the same friction.
+        "shared_random": True,
       },
     ),
     "encoder_bias": EventTermCfg(
       mode="startup",
-      func=mdp.randomize_encoder_bias,
+      func=envs_mdp.dr.encoder_bias,
       params={
         "asset_cfg": SceneEntityCfg("robot"),
         "bias_range": (-0.015, 0.015),
@@ -202,12 +200,10 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "base_com": EventTermCfg(
       mode="startup",
-      func=mdp.randomize_field,
-      domain_randomization=True,
+      func=envs_mdp.dr.body_com_offset,
       params={
         "asset_cfg": SceneEntityCfg("robot", body_names=()),  # Set per-robot.
         "operation": "add",
-        "field": "body_ipos",
         "ranges": {
           0: (-0.02, 0.02),
           1: (-0.04, 0.04),
@@ -216,20 +212,18 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       },
     ),
     "body_mass": EventTermCfg(
-    mode="startup",
-    func=mdp.randomize_field,
-    domain_randomization=True,
-    params={
-      "asset_cfg": SceneEntityCfg("robot", body_names=()),
-      "field": "body_mass",
-      "operation": "scale",
-      "distribution": "uniform",
-      "ranges": (0.8, 1.2),
-     },
+      mode="startup",
+      func=envs_mdp.dr.body_mass,
+      params={
+        "asset_cfg": SceneEntityCfg("robot", body_names=()),  # Set per-robot.
+        "operation": "scale",
+        "distribution": "uniform",
+        "ranges": (0.8, 1.2),
+      },
     ),
     "pd_gains": EventTermCfg(
       mode="startup",
-      func=mdp.randomize_pd_gains,
+      func=envs_mdp.dr.pd_gains,
       params={
         "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
         "kp_range": (0.8, 1.2),
@@ -255,9 +249,9 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     ),
     "upright": RewardTermCfg(
       func=mdp.flat_orientation,
-      weight=1.5,
+      weight=2,
       params={
-        "std": math.sqrt(0.1),
+        "std": math.sqrt(0.05),
         "asset_cfg": SceneEntityCfg("robot", body_names=()),  # Set per-robot.
       },
     ),
@@ -278,6 +272,11 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       func=mdp.body_angular_velocity_penalty,
       weight=0.0,  # Override per-robot
       params={"asset_cfg": SceneEntityCfg("robot", body_names=())},  # Set per-robot.
+    ),
+    "body_lateral_vel": RewardTermCfg(
+      func=mdp.lateral_velocity_error_penalty,
+      weight=0.0,  # Override per-robot
+      params={"command_name": "twist"},
     ),
     "angular_momentum": RewardTermCfg(
       func=mdp.angular_momentum_penalty,
@@ -394,7 +393,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
 
   return ManagerBasedRlEnvCfg(
     scene=SceneCfg(
-      terrain=TerrainImporterCfg(
+      terrain=TerrainEntityCfg(
         terrain_type="generator",
         terrain_generator=replace(ROUGH_TERRAINS_CFG),
         max_init_terrain_level=5,

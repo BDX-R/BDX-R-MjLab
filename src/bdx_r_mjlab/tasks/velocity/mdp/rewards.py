@@ -117,6 +117,24 @@ def body_lateral_velocity_penalty(
   return torch.square(asset.data.root_link_lin_vel_b[:, 1])
 
 
+def lateral_velocity_error_penalty(
+  env: ManagerBasedRlEnv,
+  command_name: str,
+  asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
+) -> torch.Tensor:
+  """Penalize unintended lateral (y) base velocity relative to the command.
+
+  Zero when tracking the commanded y velocity correctly; penalizes sway when
+  y command is zero and penalizes error when a lateral command is given.
+  """
+  asset: Entity = env.scene[asset_cfg.name]
+  command = env.command_manager.get_command(command_name)
+  assert command is not None
+  actual_y = asset.data.root_link_lin_vel_b[:, 1]
+  commanded_y = command[:, 1]
+  return torch.square(actual_y - commanded_y)
+
+
 def angular_momentum_penalty(
   env: ManagerBasedRlEnv,
   sensor_name: str,

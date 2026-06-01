@@ -95,11 +95,11 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
   cfg.rewards["pose"].params["std_walking"] = {
-    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.04, r".*_Hip_Yaw.*": 0.15,
+    r".*_Hip_Pitch.*": 0.5, r".*_Hip_Roll.*": 0.08, r".*_Hip_Yaw.*": 0.3,
     r".*_Knee.*": 0.5, r".*_Ankle.*": 0.1,
   }
   cfg.rewards["pose"].params["std_running"] = {
-    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.04, r".*_Hip_Yaw.*": 0.2,
+    r".*_Hip_Pitch.*": 0.8, r".*_Hip_Roll.*": 0.08, r".*_Hip_Yaw.*": 0.3,
     r".*_Knee.*": 0.8, r".*_Ankle.*": 0.5,
   }
 
@@ -109,9 +109,11 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   for reward_name in ["foot_clearance", "foot_swing_height", "foot_slip"]:
     cfg.rewards[reward_name].params["asset_cfg"].site_names = site_names
 
-  cfg.rewards["body_ang_vel"].weight = -0.2
-  cfg.rewards["angular_momentum"].weight = -0.04
-  cfg.rewards["air_time"].weight = 1.5
+  cfg.rewards["body_ang_vel"].weight = -1.0
+  cfg.rewards["body_lateral_vel"].weight = -2.0
+  cfg.rewards["angular_momentum"].weight = -0.1
+  cfg.rewards["air_time"].weight = 2.5
+  cfg.rewards["foot_slip"].weight = -2.0
 
   cfg.rewards["foot_clearance"].weight = -4.0
   cfg.rewards["foot_swing_height"].weight = -3.0
@@ -167,8 +169,8 @@ def bdxr_flat_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
     twist_cmd = cfg.commands["twist"]
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (0.2, 0.2)
-    twist_cmd.ranges.lin_vel_y = (0, 0.0)
+    twist_cmd.ranges.lin_vel_x = (0.0, 0.0)
+    twist_cmd.ranges.lin_vel_y = (0.2, 0.2)
     twist_cmd.ranges.ang_vel_z = (0.0, 0.0)
 
   return cfg

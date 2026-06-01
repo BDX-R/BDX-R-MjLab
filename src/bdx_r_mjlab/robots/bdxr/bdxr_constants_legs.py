@@ -5,13 +5,12 @@ from pathlib import Path
 import mujoco
 
 from mjlab import MJLAB_SRC_PATH
-from mjlab.actuator import BuiltinPositionActuatorCfg, DelayedActuatorCfg, IdealPdActuatorCfg
+from mjlab.actuator import BuiltinPositionActuatorCfg, IdealPdActuatorCfg
 from mjlab.entity import EntityArticulationInfoCfg, EntityCfg
 from mjlab.utils.actuator import (
   ElectricActuator,
   reflected_inertia_from_two_stage_planetary,
 )
-from mjlab.utils.os import update_assets
 from mjlab.utils.spec_config import CollisionCfg
 
 ##
@@ -24,16 +23,8 @@ BDXR_XML_LEGS: Path = BDXR_ROOT / "xmls" / "bdxr_legs.xml"
 
 assert BDXR_XML_LEGS.exists(), f"XML not found at {BDXR_XML_LEGS}"
 
-def get_assets(meshdir: str) -> dict[str, bytes]:
-  assets: dict[str, bytes] = {}
-  update_assets(assets, BDXR_XML_LEGS.parent / "assets", meshdir)
-  return assets
-
-
 def get_spec() -> mujoco.MjSpec:
-  spec = mujoco.MjSpec.from_file(str(BDXR_XML_LEGS))
-  spec.assets = get_assets(spec.meshdir)
-  return spec
+  return mujoco.MjSpec.from_file(str(BDXR_XML_LEGS))
 
 
 ##
@@ -64,27 +55,21 @@ ACTUATOR_ROBSTRIDE_02 = ElectricActuator(
 )
 
 
-BDXR_ACTUATOR_ROBSTRIDE_03 = DelayedActuatorCfg(
-    base_cfg=BuiltinPositionActuatorCfg(
-        target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
-        stiffness=KP_ROBSTRIDE_03,
-        damping=KD_ROBSTRIDE_03,
-        effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
-    ),
-    delay_target="position",
+BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Hip_Yaw", ".*_Hip_Roll", ".*_Hip_Pitch", ".*_Knee"),
+    stiffness=KP_ROBSTRIDE_03,
+    damping=KD_ROBSTRIDE_03,
+    effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
     delay_min_lag=2,
     delay_max_lag=4,
 )
-BDXR_ACTUATOR_ROBSTRIDE_02 = DelayedActuatorCfg(
-    base_cfg=BuiltinPositionActuatorCfg(
-        target_names_expr=(".*_Ankle",),
-        stiffness=KP_ROBSTRIDE_02,
-        damping=KD_ROBSTRIDE_02,
-        effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
-        armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
-    ),
-    delay_target="position",
+BDXR_ACTUATOR_ROBSTRIDE_02 = BuiltinPositionActuatorCfg(
+    target_names_expr=(".*_Ankle",),
+    stiffness=KP_ROBSTRIDE_02,
+    damping=KD_ROBSTRIDE_02,
+    effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
+    armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
     delay_min_lag=2,
     delay_max_lag=4,
 )
@@ -182,13 +167,11 @@ def get_bdxr_robot_legs_cfg() -> EntityCfg:
 BDXR_ACTION_SCALE_LEGS: dict[str, float] = {}
 
 for a in BDXR_LEGS_ARTICULATION.actuators:
-    assert isinstance(a, DelayedActuatorCfg)
+    assert isinstance(a, BuiltinPositionActuatorCfg)
 
-    base = a.base_cfg
-
-    e = base.effort_limit
-    s = base.stiffness
-    names = base.target_names_expr
+    e = a.effort_limit
+    s = a.stiffness
+    names = a.target_names_expr
 
     assert e is not None
 
