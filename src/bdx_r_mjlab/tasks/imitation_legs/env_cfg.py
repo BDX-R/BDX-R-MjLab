@@ -5,10 +5,6 @@ Extends bdxr_flat_env_legs_cfg with:
   - phase + ref_joint_pos observations (10 joints)
   - imitate_joint_pos / imitate_joint_vel / imitate_foot_contact rewards
 
-Generate the polynomial first:
-  cd Open_Duck_reference_motion_generator
-  uv run scripts/auto_waddle.py --duck bdx_r_legs -j8 --sweep
-  uv run scripts/fit_poly.py --duck bdx_r_legs
 """
 
 from pathlib import Path
@@ -21,11 +17,7 @@ from bdx_r_mjlab.tasks.velocity.config.bdxr.legs_env_cfgs import bdxr_flat_env_l
 from bdx_r_mjlab.tasks.imitation_legs import mdp
 from bdx_r_mjlab.tasks.imitation_legs.imitation_command_legs import ImitationCommandLegsCfg
 
-_DEFAULT_PKL = str(
-    Path(__file__).parents[5]
-    / "Open_Duck_reference_motion_generator"
-    / "polynomial_coefficients_legs.pkl"
-)
+_DEFAULT_PKL = str(Path(__file__).parents[5] / "data" / "polynomial_coefficients_legs.pkl")
 
 
 def bdxr_imitation_legs_env_cfg(

@@ -16,12 +16,7 @@ from bdx_r_mjlab.tasks.velocity.config.bdxr.env_cfgs import bdxr_flat_env_cfg
 from bdx_r_mjlab.tasks.imitation import mdp
 from bdx_r_mjlab.tasks.imitation.imitation_command import ImitationCommandCfg
 
-# Default path: assumes repo lives alongside BDX-R-MjLab
-_DEFAULT_PKL = str(
-    Path(__file__).parents[5]
-    / "Open_Duck_reference_motion_generator"
-    / "polynomial_coefficients.pkl"
-)
+_DEFAULT_PKL = str(Path(__file__).parents[5] / "data" / "polynomial_coefficients.pkl")
 
 
 def bdxr_imitation_env_cfg(
