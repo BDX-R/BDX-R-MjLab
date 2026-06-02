@@ -112,7 +112,7 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     cfg.rewards[reward_name].params["asset_cfg"].site_names = site_names
 
   cfg.rewards["body_ang_vel"].weight = -1.0
-  cfg.rewards["body_lateral_vel"].weight = -2.0
+  cfg.rewards["body_lateral_vel"].weight = -3.0
   cfg.rewards["angular_momentum"].weight = -0.1
   cfg.rewards["air_time"].weight = 2.5
   cfg.rewards["foot_slip"].weight = -2.0

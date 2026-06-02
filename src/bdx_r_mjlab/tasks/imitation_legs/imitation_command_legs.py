@@ -59,6 +59,7 @@ class ImitationCommandLegs(CommandTerm):
     def _resample_command(self, env_ids: torch.Tensor) -> None:
         vel_cmd = self._env.command_manager.get_command("twist")[env_ids, :3]
         self._clip_idx[env_ids] = self._lib.nearest_clip(vel_cmd)
+        self._ghost_abs_time[env_ids] = 0.0
 
         entity = self._env.scene[self.cfg.entity_name]
         free_q = entity.indexing.free_joint_q_adr
@@ -75,8 +76,19 @@ class ImitationCommandLegs(CommandTerm):
         self._spawn_qyaw_z[env_ids]  = torch.sin(yaw / 2.0)
         self._spawn_qyaw_w[env_ids]  = torch.cos(yaw / 2.0)
 
+    # Speed below which the phase freezes at 0 so the robot learns a stable
+    # symmetric standing pose rather than chasing a moving reference.
+    STANDING_SPEED_THRESHOLD: float = 0.1
+
     def _update_command(self) -> None:
-        self._ghost_abs_time += self._env.step_dt
+        twist = self._env.command_manager.get_command("twist")
+        speed = twist[:, :2].norm(dim=-1)  # |vx, vy|
+        is_standing = speed < self.STANDING_SPEED_THRESHOLD
+
+        # Advance time only for non-standing envs.
+        self._ghost_abs_time += self._env.step_dt * (~is_standing).float()
+        # Reset phase to 0 when transitioning into standing so next walk starts clean.
+        self._ghost_abs_time[is_standing] = 0.0
 
         period    = self._lib.period(self._clip_idx)
         raw_phase = self._ghost_abs_time / period

@@ -61,8 +61,8 @@ BDXR_ACTUATOR_ROBSTRIDE_03 = BuiltinPositionActuatorCfg(
     damping=KD_ROBSTRIDE_03,
     effort_limit=ACTUATOR_ROBSTRIDE_03.effort_limit,
     armature=ACTUATOR_ROBSTRIDE_03.reflected_inertia,
-    delay_min_lag=2,
-    delay_max_lag=4,
+    delay_min_lag=1,
+    delay_max_lag=6,
 )
 BDXR_ACTUATOR_ROBSTRIDE_02 = BuiltinPositionActuatorCfg(
     target_names_expr=(".*_Ankle",),
@@ -70,8 +70,8 @@ BDXR_ACTUATOR_ROBSTRIDE_02 = BuiltinPositionActuatorCfg(
     damping=KD_ROBSTRIDE_02,
     effort_limit=ACTUATOR_ROBSTRIDE_02.effort_limit,
     armature=ACTUATOR_ROBSTRIDE_02.reflected_inertia,
-    delay_min_lag=2,
-    delay_max_lag=4,
+    delay_min_lag=1,
+    delay_max_lag=6,
 )
 
 ##

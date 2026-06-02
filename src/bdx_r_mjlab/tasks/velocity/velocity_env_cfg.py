@@ -124,7 +124,7 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
     "twist": UniformVelocityCommandCfg(
       entity_name="robot",
       resampling_time_range=(3.0, 8.0),
-      rel_standing_envs=0.1,
+      rel_standing_envs=0.25,
       rel_heading_envs=0.3,
       heading_command=True,
       heading_control_stiffness=0.5,
@@ -226,8 +226,8 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       func=envs_mdp.dr.pd_gains,
       params={
         "asset_cfg": SceneEntityCfg("robot", actuator_ids=slice(None)),
-        "kp_range": (0.8, 1.2),
-        "kd_range": (0.8, 1.2),
+        "kp_range": (0.7, 1.3),
+        "kd_range": (0.7, 1.3),
       },
     ),
   }
