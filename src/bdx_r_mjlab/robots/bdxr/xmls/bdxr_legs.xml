@@ -149,13 +149,13 @@
                           <body name="Left_Foot_Pad" pos="0.222432 -0.025632 0.027724">
                             <inertial pos="-0.195252 0.00765129 -0.0993291" mass="0.111203" fullinertia="1.6e-05 0.000254 0.000264 0 0 -0" />
                             <geom class="visual" mesh="Left_Foot_Pad" material="black" pos="-0.210277 -0.102828 0.134168" />
-                            <geom class="collision" name="left_foot_collision1" size="0.005" fromto="-0.2678 -0.0065 -0.1087  -0.1228 -0.0065 -0.1087" />
-                            <geom class="collision" name="left_foot_collision2" size="0.005" fromto="-0.2628 -0.0025 -0.1087  -0.1278 -0.0025 -0.1087" />
-                            <geom class="collision" name="left_foot_collision3" size="0.005" fromto="-0.2578  0.0015 -0.1087  -0.1328  0.0015 -0.1087" />
-                            <geom class="collision" name="left_foot_collision4" size="0.005" fromto="-0.2578  0.0055 -0.1087  -0.1328  0.0055 -0.1087" />
-                            <geom class="collision" name="left_foot_collision5" size="0.005" fromto="-0.2578  0.0095 -0.1087  -0.1328  0.0095 -0.1087" />
-                            <geom class="collision" name="left_foot_collision6" size="0.005" fromto="-0.2628  0.0135 -0.1087  -0.1278  0.0135 -0.1087" />
-                            <geom class="collision" name="left_foot_collision7" size="0.005" fromto="-0.2678  0.0175 -0.1087  -0.1228  0.0175 -0.1087" />
+                            <geom class="collision" name="left_foot_collision1" size="0.005" fromto="-0.2678 -0.0085 -0.0997  -0.1228 -0.0085 -0.0997" />
+                            <geom class="collision" name="left_foot_collision2" size="0.005" fromto="-0.2628 -0.0035 -0.1037  -0.1278 -0.0035 -0.1037" />
+                            <geom class="collision" name="left_foot_collision3" size="0.005" fromto="-0.2578  0.0005 -0.1047  -0.1328  0.0005 -0.1047" />
+                            <geom class="collision" name="left_foot_collision4" size="0.005" fromto="-0.2578  0.0075 -0.1047  -0.1328  0.0075 -0.1047" />
+                            <geom class="collision" name="left_foot_collision5" size="0.005" fromto="-0.2578  0.0145 -0.1047  -0.1328  0.0145 -0.1047" />
+                            <geom class="collision" name="left_foot_collision6" size="0.005" fromto="-0.2628  0.0185 -0.1037  -0.1278  0.0185 -0.1037" />
+                            <geom class="collision" name="left_foot_collision7" size="0.005" fromto="-0.2678  0.0235 -0.0997  -0.1228  0.0235 -0.0997" />
                           </body>
                           <body name="Left_Foot_Cover" pos="0.102636 0.0135 -0.048903">
                             <inertial pos="-0.053452 -0.0143058 0.0213113" mass="0.0375237" fullinertia="6.4e-05 0.000132 0.000116 2.4e-05 8e-06 5e-06" />
@@ -226,13 +226,13 @@
                           <body name="Right_Foot_Pad" pos="0.10668 0.018025 -0.059278">
                             <inertial pos="-0.0794999 4.53063e-07 -0.0123271" mass="0.111203" fullinertia="1.6e-05 0.000254 0.000264 -0 0 0" />
                             <geom class="visual" mesh="Right_Foot_Pad" material="black" pos="-0.094525 0.110335 0.22291" />
-                            <geom class="collision" name="right_foot_collision1" size="0.005" fromto="-0.152  0.014 -0.02  -0.007  0.014 -0.02" />
-                            <geom class="collision" name="right_foot_collision2" size="0.005" fromto="-0.147  0.01  -0.02  -0.012  0.01  -0.02" />
-                            <geom class="collision" name="right_foot_collision3" size="0.005" fromto="-0.142  0.006 -0.02  -0.017  0.006 -0.02" />
-                            <geom class="collision" name="right_foot_collision4" size="0.005" fromto="-0.142  0.002 -0.02  -0.017  0.002 -0.02" />
-                            <geom class="collision" name="right_foot_collision5" size="0.005" fromto="-0.142 -0.002 -0.02  -0.017 -0.002 -0.02" />
-                            <geom class="collision" name="right_foot_collision6" size="0.005" fromto="-0.147 -0.006 -0.02  -0.012 -0.006 -0.02" />
-                            <geom class="collision" name="right_foot_collision7" size="0.005" fromto="-0.152 -0.01  -0.02  -0.007 -0.01  -0.02" />
+                            <geom class="collision" name="right_foot_collision1" size="0.005" fromto="-0.152  0.016 -0.012  -0.007  0.016 -0.012" />
+                            <geom class="collision" name="right_foot_collision2" size="0.005" fromto="-0.147  0.011 -0.016  -0.012  0.011 -0.016" />
+                            <geom class="collision" name="right_foot_collision3" size="0.005" fromto="-0.142  0.007 -0.017  -0.017  0.007 -0.017" />
+                            <geom class="collision" name="right_foot_collision4" size="0.005" fromto="-0.142  0.000 -0.017  -0.017  0.000 -0.017" />
+                            <geom class="collision" name="right_foot_collision5" size="0.005" fromto="-0.142 -0.007 -0.017  -0.017 -0.007 -0.017" />
+                            <geom class="collision" name="right_foot_collision6" size="0.005" fromto="-0.147 -0.011 -0.016  -0.012 -0.011 -0.016" />
+                            <geom class="collision" name="right_foot_collision7" size="0.005" fromto="-0.152 -0.016 -0.012  -0.007 -0.016 -0.012" />
                           </body>
                           <body name="Right_Foot_Cover" pos="-0.041752 -0.0135 -0.042544">
                             <inertial pos="0.09107 0.0144107 0.015231" mass="0.0375241" fullinertia="6.9e-05 0.000136 0.000117 -2.5e-05 7e-06 -7e-06" />

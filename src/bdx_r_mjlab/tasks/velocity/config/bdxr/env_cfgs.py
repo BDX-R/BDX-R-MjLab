@@ -91,6 +91,7 @@ def bdxr_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.events["foot_friction"].params["asset_cfg"].geom_names = geom_names
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_link",)
+  cfg.events["body_mass"].params["asset_cfg"].body_names = (".*",)
 
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}

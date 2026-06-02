@@ -14,6 +14,7 @@ from mjlab.sensor import ContactMatch, ContactSensorCfg, RayCastSensorCfg
 from mjlab.tasks.velocity import mdp
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
 from bdx_r_mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
+from bdx_r_mjlab.tasks.velocity.mdp.rewards import standing_action_penalty
 
 
 def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
@@ -91,6 +92,7 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.events["foot_friction"].params["asset_cfg"].geom_names = geom_names
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_link",)
+  cfg.events["body_mass"].params["asset_cfg"].body_names = (".*",)
 
   # Rewards...
   cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
@@ -122,6 +124,12 @@ def bdxr_rough_env_legs_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     func=mdp.self_collision_cost,
     weight=-1.0,
     params={"sensor_name": self_collision_cfg.name},
+  )
+
+  cfg.rewards["standing_action_penalty"] = RewardTermCfg(
+    func=standing_action_penalty,
+    weight=-0.5,
+    params={"command_name": "twist", "command_threshold": 0.05},
   )
 
   if play:

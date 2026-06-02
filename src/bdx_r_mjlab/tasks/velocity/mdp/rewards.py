@@ -85,6 +85,24 @@ def flat_orientation(
   return torch.exp(-xy_squared / std**2)
 
 
+def standing_action_penalty(
+  env: ManagerBasedRlEnv,
+  command_name: str,
+  command_threshold: float = 0.05,
+) -> torch.Tensor:
+  """Penalize non-zero actions when the velocity command is near zero.
+
+  Applies only when total commanded speed < command_threshold so walking/running
+  imitation is unaffected. Targets oscillatory jitter at standstill.
+  """
+  command = env.command_manager.get_command(command_name)
+  assert command is not None
+  total_speed = torch.norm(command[:, :2], dim=1) + torch.abs(command[:, 2])
+  standing_mask = (total_speed < command_threshold).float()
+  action_sq = torch.sum(torch.square(env.action_manager.action), dim=1)
+  return standing_mask * action_sq
+
+
 def self_collision_cost(env: ManagerBasedRlEnv, sensor_name: str) -> torch.Tensor:
   """Penalize self-collisions.
 
